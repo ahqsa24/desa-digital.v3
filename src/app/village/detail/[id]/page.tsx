@@ -1,0 +1,491 @@
+"use client";
+
+
+import CardInnovation from "Components/card/innovation";
+import TopBar from "Components/topBar";
+import { paths } from "Consts/path";
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import EnlargedImage from "src/components/village/Image";
+
+
+import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Box,
+    Button,
+    Flex,
+    Text,
+    useDisclosure,
+} from "@chakra-ui/react";
+import StatusCard from "Components/card/status/StatusCard";
+import {
+    DocumentData,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    updateDoc,
+    where,
+} from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, firestore } from "src/firebase/clientApp";
+import {
+    ActionContainer,
+    Background,
+    CardContainer,
+    ChipContainer,
+    ContPotensiDesa,
+    ContentContainer,
+    Description,
+    Horizontal,
+    Icon,
+    Label,
+    Logo,
+    SubText,
+    Title,
+} from "./_styles";
+import RejectionModal from "Components/confirmModal/RejectionModal";
+import ActionDrawer from "Components/drawer/ActionDrawer";
+
+export default function DetailVillagePage() {
+    const router = useRouter();
+    const [userLogin] = useAuthState(auth);
+    const [innovations, setInnovations] = useState<DocumentData[]>([]);
+    const [village, setVillage] = useState<DocumentData | undefined>();
+    const params = useParams();
+    const id = params.id as string;
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [admin, setAdmin] = useState(false);
+    const [owner, setOwner] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [modalInput, setModalInput] = useState(""); // Catatan admin
+
+    const formatLocation = (lokasi: any) => {
+        if (!lokasi) return "No Location";
+        const kecamatan = lokasi.kecamatan?.label || "Unknown Subdistrict";
+        const kabupaten = lokasi.kabupatenKota?.label || "Unknown City";
+        const provinsi = lokasi.provinsi?.label || "Unknown Province";
+
+        return `KECAMATAN ${kecamatan}, ${kabupaten}, ${provinsi}`;
+    };
+
+    const handleVerify = async () => {
+        setLoading(true);
+        try {
+            if (id) {
+                const docRef = doc(firestore, "villages", id);
+                await updateDoc(docRef, {
+                    status: "Terverifikasi",
+                });
+                setVillage((prev) =>
+                    prev ? ({
+                        ...prev,
+                        status: "Terverifikasi",
+                    }) : undefined);
+            } else {
+                throw new Error("Village ID is undefined");
+            }
+        } catch (error) {
+            // setError(error.message);
+        }
+        setLoading(false);
+        onClose();
+    };
+
+    const handleReject = async () => {
+        setLoading(true);
+        try {
+            if (id) {
+                const docRef = doc(firestore, "villages", id);
+                await updateDoc(docRef, {
+                    status: "Ditolak",
+                    catatanAdmin: modalInput, // Simpan alasan penolakan ke Firestore
+                });
+                setVillage((prev) =>
+                    prev ? ({
+                        ...prev,
+                        status: "Ditolak",
+                        catatanAdmin: modalInput,
+                    }) : undefined);
+            } else {
+                throw new Error("Village ID is undefined");
+            }
+        } catch (error) {
+            console.error("Error during rejection:", error);
+        }
+        setLoading(false);
+        setOpenModal(false); // Tutup modal setelah menyimpan
+    };
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            if (userLogin?.uid) {
+                const userRef = doc(firestore, "users", userLogin.uid);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    setAdmin(userSnap.data()?.role === "admin");
+                    if (userSnap.data()?.id === id) {
+                        setOwner(true);
+                    }
+                }
+            }
+        };
+        fetchUser();
+    }, [userLogin, id]);
+
+
+    useEffect(() => {
+        const fetchVillageData = async () => {
+            if (id) {
+                try {
+                    const docRef = doc(firestore, "villages", id);
+                    const docSnap = await getDoc(docRef);
+
+                    const inovationRef = collection(firestore, "innovations");
+                    const q = query(inovationRef, where("desaId", "array-contains", id));
+                    const innovationsSnapshot = await getDocs(q);
+                    const innovationsData = innovationsSnapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }));
+                    setInnovations(innovationsData);
+                    console.log("Inovasi:", innovationsData);
+                    if (docSnap.exists()) {
+                        setVillage(docSnap.data());
+                    } else {
+                        console.error("No such document!");
+                    }
+                } catch (error) {
+                    console.error("Error fetching village data:", error);
+                }
+            } else {
+                console.error("Village ID is undefined");
+            }
+        };
+
+        fetchVillageData();
+    }, [id]);
+
+    return (
+        <Box paddingBottom={16}>
+            <TopBar title="Detail Desa" onBack={() => router.back()} />
+            <div style={{ position: "relative", width: "100%" }}>
+                <Background src={village?.header || "/images/default-header.svg"} alt="background" />
+                <Logo mx={16} my={-40} src={village?.logo || "/images/default-logo.svg"} alt="logo" />
+            </div>
+            <div>
+                <ContentContainer>
+                    <Title> {village?.namaDesa} </Title>
+                    <ActionContainer>
+                        <Icon src="/icons/location.svg" alt="loc" />
+                        <Description>{formatLocation(village?.lokasi)}</Description>
+                    </ActionContainer>
+                    <div>
+                        <SubText margin-bottom={16}>Tentang</SubText>
+                        <Description>{village?.deskripsi}</Description>
+                    </div>
+                    <div>
+                        <SubText>Potensi Desa</SubText>
+                        <ContPotensiDesa>
+                            {village?.potensiDesa?.map((potensi: string, index: number) => (
+                                <ChipContainer key={index}>
+                                    <Label>{potensi}</Label>
+                                </ChipContainer>
+                            ))}
+                        </ContPotensiDesa>
+                    </div>
+                    <div>
+                        <SubText>Karakteristik Desa</SubText>
+                        <Accordion defaultIndex={[0]} allowMultiple>
+                            <AccordionItem>
+                                <h2>
+                                    <AccordionButton paddingLeft="4px" paddingRight="4px">
+                                        <Flex
+                                            as="span"
+                                            flex="1"
+                                            textAlign="left"
+                                            fontSize="12px"
+                                            fontWeight="700"
+                                            gap={2}
+                                        >
+                                            <Icon src="/icons/geography.svg" alt="geo" /> Geografis
+                                        </Flex>
+                                        <AccordionIcon color="#347357" />
+                                    </AccordionButton>
+                                </h2>
+                                <AccordionPanel
+                                    pb={4}
+                                    fontSize={12}
+                                    paddingLeft="4px"
+                                    paddingRight="4px"
+                                >
+                                    {village?.geografisDesa}
+                                </AccordionPanel>
+                            </AccordionItem>
+                            <AccordionItem>
+                                <h2>
+                                    <AccordionButton paddingLeft="4px" paddingRight="4px">
+                                        <Flex
+                                            as="span"
+                                            flex="1"
+                                            textAlign="left"
+                                            fontSize="12px"
+                                            fontWeight="700"
+                                            gap={2}
+                                        >
+                                            <Icon src="/icons/infrastructure.svg" alt="Infrastrusture" />{" "}
+                                            Infrastruktur
+                                        </Flex>
+                                        <AccordionIcon color="#347357" />
+                                    </AccordionButton>
+                                </h2>
+                                <AccordionPanel
+                                    pb={4}
+                                    fontSize={12}
+                                    paddingLeft="4px"
+                                    paddingRight="4px"
+                                >
+                                    <Box>
+                                        <Text fontWeight="bold">Kondisi Jalan:</Text>
+                                        <Text>{village?.kondisijalan || "Tidak tersedia"}</Text>
+                                    </Box>
+                                    <Box mt={2}>
+                                        <Text fontWeight="bold">Jaringan Internet:</Text>
+                                        <Text>{village?.jaringan || "Tidak tersedia"}</Text>
+                                    </Box>
+                                    <Box mt={2}>
+                                        <Text fontWeight="bold">Ketersediaan Listrik:</Text>
+                                        <Text>{village?.listrik || "Tidak tersedia"}</Text>
+                                    </Box>
+                                    <Box mt={2}>
+                                        <Text fontWeight="bold">Lain-lain:</Text>
+                                        <Text>
+                                            {village?.infrastrukturDesa || "Tidak tersedia"}
+                                        </Text>
+                                    </Box>
+                                </AccordionPanel>
+                            </AccordionItem>
+                            <AccordionItem>
+                                <h2>
+                                    <AccordionButton paddingLeft="4px" paddingRight="4px">
+                                        <Flex
+                                            as="span"
+                                            flex="1"
+                                            textAlign="left"
+                                            fontSize="12px"
+                                            fontWeight="700"
+                                            gap={2}
+                                        >
+                                            <Icon src="/icons/digital-readiness.svg" alt="DigR" /> Kesiapan Digital
+                                        </Flex>
+                                        <AccordionIcon color="#347357" />
+                                    </AccordionButton>
+                                </h2>
+                                <AccordionPanel
+                                    pb={4}
+                                    fontSize={12}
+                                    paddingLeft="4px"
+                                    paddingRight="4px"
+                                >
+                                    <Box>
+                                        <Text fontWeight="bold">
+                                            Perkembangan Teknologi Digital:
+                                        </Text>
+                                        <Text>{village?.teknologi || "Tidak tersedia"}</Text>
+                                    </Box>
+                                    <Box mt={2}>
+                                        <Text fontWeight="bold">Kemampuan Teknologi:</Text>
+                                        <Text>{village?.kemampuan || "Tidak tersedia"}</Text>
+                                    </Box>
+                                </AccordionPanel>
+                            </AccordionItem>
+                            <AccordionItem>
+                                <h2>
+                                    <AccordionButton paddingLeft="4px" paddingRight="4px">
+                                        <Flex
+                                            as="span"
+                                            flex="1"
+                                            textAlign="left"
+                                            fontSize="12px"
+                                            fontWeight="700"
+                                            gap={2}
+                                        >
+                                            <Icon src="/icons/socio-cultural.svg" alt="SocCul" /> Sosial dan Budaya
+                                        </Flex>
+                                        <AccordionIcon color="#347357" />
+                                    </AccordionButton>
+                                </h2>
+                                <AccordionPanel
+                                    pb={4}
+                                    fontSize={12}
+                                    paddingLeft="4px"
+                                    paddingRight="4px"
+                                >
+                                    {village?.sosialBudaya}
+                                </AccordionPanel>
+                            </AccordionItem>
+                            <AccordionItem>
+                                <h2>
+                                    <AccordionButton paddingLeft="4px" paddingRight="4px">
+                                        <Flex
+                                            as="span"
+                                            flex="1"
+                                            textAlign="left"
+                                            fontSize="12px"
+                                            fontWeight="700"
+                                            gap={2}
+                                        >
+                                            <Icon src="/icons/resource-village.svg" alt="Resource" /> Sumber Daya Alam
+                                        </Flex>
+                                        <AccordionIcon color="#347357" />
+                                    </AccordionButton>
+                                </h2>
+                                <AccordionPanel
+                                    pb={4}
+                                    fontSize={12}
+                                    paddingLeft="4px"
+                                    paddingRight="4px"
+                                >
+                                    {village?.sumberDaya}
+                                </AccordionPanel>
+                            </AccordionItem>
+                        </Accordion>
+                    </div>
+                    <div>
+                        <SubText>Galeri Desa</SubText>
+                        <CardContainer>
+                            {village?.images && Object.values(village.images).length > 0 ? (
+                                <Horizontal>
+                                    {(Object.values(village.images) as string[]).map(
+                                        (image: string, index: number) => (
+                                            <EnlargedImage key={index} src={image} />
+                                        )
+                                    )}
+                                </Horizontal>
+                            ) : (
+                                <Text color="gray.400" fontSize={12}>
+                                    Tidak ada gambar
+                                </Text>
+                            )}
+                        </CardContainer>
+                    </div>
+                    <div>
+                        <Flex
+                            justifyContent="space-between"
+                            alignItems="flex-end"
+                            align-self="stretch"
+                        >
+                            <SubText>Inovasi yang Diterapkan</SubText>
+                            <Text
+                                onClick={() => router.push("/target-page")} // TODO: Check target page
+                                cursor="pointer"
+                                color="var(--Primary, #347357)"
+                                fontSize="12px"
+                                fontWeight="500"
+                                textDecorationLine="underline"
+                                paddingBottom="12px"
+                            >
+                                {" "}
+                                Lihat Semua{" "}
+                            </Text>
+                        </Flex>
+                        {village?.status === "Terverifikasi" && (
+                            <CardContainer style={{ paddingBottom: "40px" }}>
+                                <Horizontal>
+                                    {innovations.length === 0 ? (
+                                        <Text color="gray.400" fontSize={12}>
+                                            Belum ada inovasi yang diterapkan
+                                        </Text>
+                                    ) : (
+                                        innovations.slice(0, 5).map((innovation, idx) => (
+                                            <CardInnovation
+                                                key={idx}
+                                                images={innovation.images}
+                                                namaInovasi={innovation.namaInovasi}
+                                                kategori={innovation.kategori}
+                                                deskripsi={innovation.deskripsi}
+                                                tahunDibuat={innovation.tahunDibuat}
+                                                // innovatorLogo={innovation.innovatorImgURL}
+                                                // innovatorName={innovation.namaInnovator}
+                                                onClick={() => {
+                                                    if (innovation.id) {
+                                                        router.push(`/innovation/detail/${innovation.id}`);
+                                                    }
+                                                }}
+
+                                            />
+                                        ))
+                                    )}
+                                </Horizontal>
+                            </CardContainer>
+                        )}
+                    </div>
+                    <Box
+                        position="fixed"
+                        bottom="0"
+                        left="50%"
+                        transform="translateX(-50%)"
+                        width="100%"
+                        maxWidth="360px"
+                        bg="white"
+                        p="3.5"
+                        boxShadow="0px -6px 12px rgba(0, 0, 0, 0.1)"
+                    >
+                        {/* Logika untuk Admin */}
+                        {admin ? (
+                            village?.status === "Terverifikasi" ||
+                                village?.status === "Ditolak" ? (
+                                // Tampilkan StatusCard jika status Terverifikasi atau Ditolak
+                                <StatusCard
+                                    message={village?.catatanAdmin}
+                                    status={village?.status}
+                                />
+                            ) : (
+                                // Tampilkan tombol Verifikasi jika status belum Terverifikasi/Ditolak
+                                <Button width="100%" fontSize="14px" mb={8} onClick={onOpen}>
+                                    Verifikasi Permohonan Akun
+                                </Button>
+                            )
+                        ) : (
+                            // Logika untuk Non-Admin
+                            <Flex>
+                                <Button width="100%" onClick={onOpen}>
+                                    Kontak Desa
+                                </Button>
+                            </Flex>
+                        )}
+                    </Box>
+                    <RejectionModal
+                        isOpen={openModal}
+                        onClose={() => setOpenModal(false)}
+                        onConfirm={handleReject}
+                        message={modalInput}
+                        setMessage={setModalInput}
+                        loading={loading}
+                    />
+                </ContentContainer>
+            </div>
+            <ActionDrawer
+                isOpen={isOpen}
+                onClose={onClose}
+                isAdmin={admin}
+                loading={loading}
+                onVerify={handleVerify}
+                setOpenModal={setOpenModal}
+                role="Desa"
+                contactData={{
+                    whatsapp: village?.whatsapp || "",
+                    instagram: village?.instagram || "https://www.instagram.com/",
+                    website: village?.website || "https://www.google.com/",
+                }}
+            />
+        </Box>
+    );
+}

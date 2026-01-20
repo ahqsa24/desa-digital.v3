@@ -1,0 +1,60 @@
+import React from "react";
+import {
+  Applied,
+  Background,
+  Category,
+  CompanyContainer,
+  Container,
+  Content,
+  Description,
+  Icon,
+  InnovatorName,
+  Title,
+} from "./_cardInnovationStyle";
+
+
+
+type CardInnovationProps = {
+  images?: string[];
+  namaInovasi?: string;
+  kategori?: string;
+  deskripsi?: string;
+  tahunDibuat?: string;
+  innovatorLogo?: string | React.ReactNode;
+  innovatorName?: string | React.ReactNode;
+  onClick?: () => void;
+};
+
+function CardInnovation(props: CardInnovationProps) {
+  const { images, namaInovasi, kategori, deskripsi, tahunDibuat, innovatorLogo, innovatorName, onClick } = props;
+
+  return (
+    <Container onClick={onClick}>
+      <Background src={images ? images[0] : "/images/default-header.svg"} alt={namaInovasi} />
+      <Content>
+        <div>
+          <Title>{namaInovasi}</Title>
+          <Category>{kategori}</Category>
+          <Description>{deskripsi}</Description>
+        </div>
+        <div>
+          <CompanyContainer>
+            {typeof innovatorLogo === "string" ? (
+              <Icon src={innovatorLogo} alt={namaInovasi} />
+            ) : (
+              <>{innovatorLogo}</>
+            )}
+            {typeof innovatorName === "string" ? (
+              <InnovatorName>{innovatorName}</InnovatorName>
+            ) : (
+              <div>{innovatorName}</div>
+            )}
+          </CompanyContainer>
+          <Applied>Sejak {tahunDibuat || "-"}</Applied>
+        </div>
+      </Content>
+    </Container>
+  );
+}
+
+export default CardInnovation;

@@ -1,0 +1,110 @@
+{
+  "users": [
+    {
+      "role": "innovator",
+      "email": "demo@gmail.com",
+      "password": "demo",
+      "id": 1,
+      "innovatorName": "Efishery",
+      "category": "Pemasaran Agri-Food dan E-Commerce",
+      "targetUser": "Nelayan budidaya (ikan darat)",
+      "product": "Otomasi teknologi budidaya ikan",
+      "modelBusiness": "Layanan Berbayar untuk sewa alat dan pusat multi layanan",
+      "description": "eFishery startup Aqua-Tech pertama di Asia, membangun ekosistem Akuakultur berkelanjutan dengan teknologi yang membantu budidaya ikan/udang.",
+      "logo": "https://i.postimg.cc/gkyPhh0k/efishery-logo.png",
+      "background": "https://asset.kompas.com/crops/xKbxkCjPBXzFRTmqLYwG8ps65nI=/0x0:0x0/750x500/data/photo/2021/11/05/61842538b5611.jpg",
+      "whatsApp": "-",
+      "instagram": "https://www.instagram.com/efishery/",
+      "website": "https://efishery.com/"
+    },
+    {
+      "role": "innovator",
+      "email": "biopsagro@gmail.com",
+      "password": "biops",
+      "id": 2,
+      "innovatorName": "Biops Agrotekno",
+      "targetUser": "Petani",
+      "product": "Encomotion",
+      "description": "PT BIOPS Agrotekno Indonesia merupakan perusahaan yang bergerak pada inovasi teknologi bidang pertanian.",
+      "modelBusiness": "Perusahaan sosial, Layanan Berbayar",
+      "logo": "https://i.postimg.cc/L66zH5Kx/biops-logo.jpg",
+      "background": "https://i.postimg.cc/d08FNq1Y/encomotion.jpg",
+      "whatsApp": "0813-1852-8117",
+      "website": "https://www.biopsagrotekno.co.id/",
+      "instagram": "https://www.instagram.com/biopsagrotekno/"
+    },
+    {
+      "role": "village",
+      "email": "alamendah@gmail.com",
+      "password": "desa",
+      "id": 3,
+      "nameVillage": "Desa Alamendah",
+      "description": "Alamendah adalah desa di kecamatan Rancabali, Bandung, Jawa Barat, Indonesia. salah satu desa Agronomi termaju dan terpadat di Kec Rancabali dengan mayoritas mata pencaharian penduduknya petani dan pedagang. Selain itu Alamendah dikenal dengan Wisata Alam, Wisata Religgi, dan Agrowisatanya, Oleh karena itu, banyak alih fungsi lahan dari lahan pertanian dan hutan menjadi tempat wisata, menimbulkan semakin sepitnya lahan pertanian dan berkurangnya sumber mata air. di sisi lain wisata mejadi sumber penghasilan yang menguntungkan bagi masayarakat Alamendah.",
+      "benefit": "Teknologi smart green house",
+      "whatsApp": "6281372534485",
+      "province": "32",
+      "district": "Kabupaten Bandung, Jawa Barat",
+      "subDistrict": "3204011",
+      "village": "3204011005",
+      "logo": "https://i.postimg.cc/Sxg1y3vM/logo-desaalamendah.jpg",
+      "header": "https://i.postimg.cc/mDHmyD2Y/alamendah-header.jpg"
+    }
+  ],
+  "categories": [
+    {
+      "icon": "./public/icons/smart-agri.svg",
+      "title": "Pertanian Cerdas",
+      "description": "Pertanian yang menggunakan teknologi untuk membantu petani dalam mengelola tanaman dan hewan ternak mereka."
+    },
+    {
+      "icon": "./public/icons/agri-food.svg",
+      "title": "Pemasaran Agri-Food dan E-Commerce",
+      "description": "Menjual makanan dan produk pertanian secara online menggunakan teknologi seperti internet dan aplikasi."
+    },
+    {
+      "icon": "./public/icons/e-government.svg",
+      "title": "E-Government",
+      "description": "Pemerintah yang menggunakan teknologi seperti internet dan aplikasi untuk membantu masyarakat berinteraksi dengan pemerintah."
+    },
+    {
+      "icon": "./public/icons/information-system.svg",
+      "title": "Sistem Informasi",
+      "description": "Sebuah sistem yang mengumpulkan dan memproses informasi sehingga dapat diakses dan digunakan untuk berbagai keperluan."
+    },
+    {
+      "icon": "./public/icons/local-infrastructure.svg",
+      "title": "Infrastruktur Lokal",
+      "description": "Upaya untuk meningkatkan kualitas  infrastruktur (jalan, air, listrik) di suatu daerah."
+    },
+    {
+      "icon": "./public/icons/community-development.svg",
+      "title": "Pengembangan Masyarakat dan Ekonomi",
+      "description": "Upaya untuk meningkatkan kualitas masyarakat dan perekonomian di suatu daerah."
+    },
+    {
+      "icon": "./public/icons/financial.svg",
+      "title": "Layanan Keuangan",
+      "description": "Layanan yang membantu orang untuk mengelola uang mereka, seperti menabung, meminjam, atau berinvestasi."
+    },
+    {
+      "icon": "./public/icons/resources.svg",
+      "title": "Pengelolaan Sumber Daya",
+      "description": "Memanfaatkan sumber daya (air, tanah, energi) dengan cara yang bertanggung jawab dan berkelanjutan."
+    },
+    {
+      "icon": "./public/icons/social-service.svg",
+      "title": "Layanan Sosial",
+      "description": "Layanan yang membantu orang yang membutuhkan seperti layanan kesehatan atau bantuan sosial."
+    },
+    {
+      "icon": "./public/icons/e-tourism.svg",
+      "title": "E-Tourism",
+      "description": "Pariwisata yang memanfaatkan teknologi seperti internet untuk membantu orang merencanakan dan memilih destinasi wisata."
+    },
+    {
+      "icon": "./public/icons/menu-all.svg",
+      "title": "Lihat Semua",
+      "description": ""
+    }
+  ]
+}
