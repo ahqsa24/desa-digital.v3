@@ -17,6 +17,8 @@ import SearchBarInnov from "Components/innovator/hero/SearchBarInnov";
 import { collection, DocumentData, getDocs } from "firebase/firestore";
 import { firestore } from "src/firebase/clientApp";
 import { useEffect, useState } from "react";
+import TopBar from "Components/topBar";
+import Container from "Components/container";
 // import { paddingStyle } from "Consts/sizing"; // not used in JSX
 
 const categories = [
@@ -63,7 +65,8 @@ export default function InnovatorPage() {
     }
 
     return (
-        <Box>
+        <Container page>
+            <TopBar title="Inovator" />
             <Hero />
             <Containers>
                 <CardContent>
@@ -122,6 +125,6 @@ export default function InnovatorPage() {
                     ))}
                 </GridContainer>
             </Containers>
-        </Box>
+        </Container>
     );
 }

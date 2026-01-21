@@ -21,6 +21,8 @@ import {
 import Dropdown from "Components/village/Filter";
 import Hero from "Components/village/hero";
 import SearchBarVil from "Components/village/SearchBarVil";
+import TopBar from "Components/topBar";
+import Container from "Components/container";
 
 const defaultHeader = "/images/default-header.svg";
 const defaultLogo = "/images/default-logo.svg";
@@ -130,7 +132,8 @@ const Village: React.FC = () => {
     });
 
     return (
-        <Box>
+        <Container page>
+            <TopBar title="Desa Digital" />
             <Hero />
             <Containers>
                 <CardContent>
@@ -193,7 +196,7 @@ const Village: React.FC = () => {
                         ))}
                 </GridContainer>
             </Containers>
-        </Box>
+        </Container>
     );
 };
 
