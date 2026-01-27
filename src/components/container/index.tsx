@@ -8,7 +8,7 @@ interface ContainerProps extends PaddingProps, MarginProps {
 
 function Container({ page, children, ...rest }: ContainerProps) {
   return (
-    <StyledContainer page={page} {...rest}>
+    <StyledContainer $page={page} {...rest}>
       {children}
     </StyledContainer>
   )

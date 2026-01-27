@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "react-toastify";
 import { useUser } from "src/contexts/UserContext";
 import { auth, firestore } from "../../firebase/clientApp";
@@ -210,7 +211,15 @@ function TopBar(props: TopBarProps) {
               <Flex gap="1px">
                 <Button
                   as={IconButton}
-                  icon={<img src={faq} alt="faq" width="20px" height="20px" />}
+                  icon={(
+                    <Image
+                      src={faq}
+                      alt="faq"
+                      width={20}
+                      height={20}
+                      style={{ width: '20px', height: '20px' }}
+                    />
+                  )}
                   color="white"
                   cursor="pointer"
                   padding={2}

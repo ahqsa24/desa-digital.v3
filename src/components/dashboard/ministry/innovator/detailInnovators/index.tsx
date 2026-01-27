@@ -245,7 +245,7 @@ const DetailInnovators = ({ kategoriInovator, onSelectInovator }: DetailInnovato
         {kategoriInovator && (
           <Menu>
             <MenuButton as={Button} variant="ghost" size="sm" px={2} py={1}>
-              <Image src={downloadIcon} alt="Download" boxSize="16px" />
+              <Image src={downloadIcon.src} alt="Download" boxSize="16px" />
             </MenuButton>
             <MenuList>
               <MenuItem onClick={handleDownloadPDF}>Download PDF</MenuItem>

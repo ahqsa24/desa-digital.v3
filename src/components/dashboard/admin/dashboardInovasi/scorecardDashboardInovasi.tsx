@@ -91,7 +91,7 @@ const ScoreCardDashboardInnovations: React.FC = () => {
                   {stat.iconType === "react-icon" ? (
                     <stat.icon size={16} color="#357357" />
                   ) : (
-                    <Image src={stat.icon} w={4} h={4} alt={`${stat.label} icon`} />
+                    <Image src={stat.icon.src} w={4} h={4} alt={`${stat.label} icon`} />
                   )}
                 </Box>
                 <Box>

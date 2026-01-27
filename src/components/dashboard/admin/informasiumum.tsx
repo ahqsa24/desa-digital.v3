@@ -158,7 +158,7 @@ const InformasiUmum: React.FC = () => {
             {
               label: "Desa Digital",
               icon: (
-                <Image src={VillageActive} alt="Village Icon" w={6} h={6} />
+                <Image src={VillageActive.src} alt="Village Icon" w={6} h={6} />
               ),
               iconBg: "#C6D8D0",
               value: totalVillage,
@@ -179,7 +179,7 @@ const InformasiUmum: React.FC = () => {
               label: "Inovasi",
               icon: (
                 <Image
-                  src={InnovationActive}
+                  src={InnovationActive.src}
                   alt="Innovation Icon"
                   w={6}
                   h={6}

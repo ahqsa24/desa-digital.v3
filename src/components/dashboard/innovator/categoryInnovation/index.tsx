@@ -258,7 +258,7 @@ const TableInnovator = () => {
         <Text {...titleStyle}>Daftar Inovasi {inovatorProfile?.namaInovator || "Inovator"}</Text>
         <Menu>
           <MenuButton>
-            <Image src={downloadIcon} alt="Download" boxSize="16px" cursor="pointer" marginRight={2} />
+            <Image src={downloadIcon.src} alt="Download" boxSize="16px" cursor="pointer" marginRight={2} />
           </MenuButton>
           <MenuList>
             <MenuItem onClick={exportToPDF}>Download PDF</MenuItem>

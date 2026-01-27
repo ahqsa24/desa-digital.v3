@@ -150,7 +150,7 @@ const ScoreCardDashboardDesa: React.FC = () => {
                   flexShrink={0}
                   mr={3}
                 >
-                  <Image src={stat.icon} w={4} h={4} alt={`${stat.label} icon`} />
+                  <Image src={stat.icon.src} w={4} h={4} alt={`${stat.label} icon`} />
                 </Box>
                 <Box overflow="hidden">
                   <Text

@@ -25,6 +25,13 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { isAdmin, checking } = useAdminStatus();
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   // Tampilkan loading selama status admin sedang dicek
   if (checking) return <Loading />;
@@ -65,7 +72,7 @@ const Navbar: React.FC = () => {
   if (!show.includes(pathname || "")) return null;
 
   return (
-    <OuterContainer>
+    <OuterContainer suppressHydrationWarning={true}>
       <Container>
         <GridContainer>
           {menu.map(({ icon, active, label, path }, idx) => (

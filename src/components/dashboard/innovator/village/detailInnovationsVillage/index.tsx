@@ -335,7 +335,7 @@ const DetailInnovations: React.FC<DetailInnovationsProps> = ({
             <MenuButton
               as={IconButton}
               aria-label="Download options"
-              icon={<Image src={downloadIcon} alt="Download" boxSize="16px" />}
+              icon={<Image src={downloadIcon.src} alt="Download" boxSize="16px" />}
               variant="ghost"
             />
             <MenuList>

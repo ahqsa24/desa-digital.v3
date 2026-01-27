@@ -13,15 +13,12 @@ export const GridContainer = styled.div`
 `;
 
 export const Containers = styled.div`
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   gap: 16px;
-  position: relative;
-  top: -70px;
-  margin: 16px;
   width: 100%;  
   padding: 16px;
-  margin: 0px 0;
+  margin: -70px 0 0 0;
 `;
 
 export const CardContent = styled.div`

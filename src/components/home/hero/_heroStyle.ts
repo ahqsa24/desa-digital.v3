@@ -1,26 +1,29 @@
 import styled from "styled-components";
 
 interface BackgroundProps {
-  isAdmin?: boolean;
-  isInnovator?: boolean
-  isVillage?: boolean
+  $isAdmin?: boolean;
+  $isInnovator?: boolean
+  $isVillage?: boolean
+  $minHeight?: number
 }
 
-export const Background = styled.div<BackgroundProps & { minHeight?: number }>`
+export const Background = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['$isAdmin', '$isInnovator', '$isVillage', '$minHeight'].includes(prop)
+}) <BackgroundProps>`
   padding: 16px;
-  background-image: ${({ isAdmin, isInnovator, isVillage }) =>
-    `url(${isAdmin
+  background-image: ${({ $isAdmin, $isInnovator, $isVillage }) =>
+    `url(${$isAdmin
       ? "/images/hero-background-admin.svg"
-      : isInnovator
+      : $isInnovator
         ? "/images/Background-inovator3.svg"
-        : isVillage
+        : $isVillage
           ? "/images/Background-desahome1.svg"
           : "/images/Background-desadigital.svg"
     })`};
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  min-height: ${({ minHeight }) => minHeight || 145}px;
+  min-height: ${({ $minHeight }) => $minHeight || 145}px;
   border-radius: 0px 0px 16px 16px;
   display: flex;
   align-items: center;

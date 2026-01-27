@@ -16,13 +16,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <CacheProvider>
                 <ChakraProvider theme={theme}>
                     <UserProvider>
-                        {children}
-                        <ToastContainer
-                            position="top-center"
-                            autoClose={2000}
-                            theme="light"
-                            transition={Bounce}
-                        />
+                        <div suppressHydrationWarning={true}>
+                            {children}
+                            <ToastContainer
+                                position="top-center"
+                                autoClose={2000}
+                                theme="light"
+                                transition={Bounce}
+                            />
+                        </div>
                     </UserProvider>
                 </ChakraProvider>
             </CacheProvider>
