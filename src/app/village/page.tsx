@@ -22,6 +22,7 @@ import Dropdown from "Components/village/Filter";
 import Hero from "Components/village/hero";
 import SearchBarVil from "Components/village/SearchBarVil";
 import Container from "Components/container";
+import { useTranslations } from "next-intl";
 
 const defaultHeader = "/images/default-header.svg";
 const defaultLogo = "/images/default-logo.svg";
@@ -35,6 +36,7 @@ interface Location {
 }
 
 const Village: React.FC = () => {
+    const t = useTranslations("Village");
     const router = useRouter();
     const [user] = useAuthState(auth);
 
@@ -137,17 +139,17 @@ const Village: React.FC = () => {
                 <CardContent>
                     <Column1>
                         <Column2>
-                            <Text>Pilih Provinsi</Text>
+                            <Text>{t("selectProvince")}</Text>
                             <Dropdown
-                                placeholder="Pilih Provinsi"
+                                placeholder={t("selectProvince")}
                                 options={provinces}
                                 onChange={handleProvinceChange}
                             />
                         </Column2>
                         <Column2>
-                            <Text>Pilih Kab/Kota</Text>
+                            <Text>{t("selectRegency")}</Text>
                             <Dropdown
-                                placeholder="Pilih Kab/Kota"
+                                placeholder={t("selectRegency")}
                                 options={regencies}
                                 onChange={handleRegencyChange}
                             />
@@ -155,17 +157,17 @@ const Village: React.FC = () => {
                     </Column1>
                     <Column1>
                         <SearchBarVil
-                            placeholder="Cari nama desa..."
+                            placeholder={t("searchPlaceholder")}
                             onChange={(keyword: string) => setSearchTerm(keyword)}
                         />
                     </Column1>
                 </CardContent>
                 <Text>
-                    Menampilkan semua desa untuk{" "}
+                    {t("showAll")}{" "}
                     <Texthighlight>
                         {selectedProvince || selectedRegency
                             ? `${selectedProvince}${selectedProvince && selectedRegency ? ", " : ""}${selectedRegency}`
-                            : "Semua Provinsi"}
+                            : t("allProvince")}
                     </Texthighlight>
                 </Text>
                 <GridContainer>

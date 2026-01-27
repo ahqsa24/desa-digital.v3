@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { firestore } from "@/firebase/clientApp";
 import { CardContainer, Horizontal, Title } from "./_innovatorStyle";
+import { useTranslations } from "next-intl";
 
 
 interface InnovatorData {
@@ -29,6 +30,7 @@ interface InnovatorData {
 
 
 function Innovator() {
+  const t = useTranslations("Home");
   const router = useRouter();
   const [innovators, setInnovators] = useState<DocumentData[]>([]);
 
@@ -57,7 +59,7 @@ function Innovator() {
   console.log("Innovators:", innovators);
   return (
     <Box padding="0 14px">
-      <Title>Inovator Unggulan</Title>
+      <Title>{t("featuredInnovators")}</Title>
       <CardContainer>
         <Horizontal>
           {innovators.map((item: any, idx) => (

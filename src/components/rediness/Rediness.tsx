@@ -1,8 +1,10 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 
 const Rediness: React.FC = () => {
+  const t = useTranslations("Components.rediness");
   return (
     // <Container>
     <Flex>
@@ -22,7 +24,9 @@ const Rediness: React.FC = () => {
           lineHeight="140%"
           mb="11px"
         >
-          Cek Kesiapan Dirimu <br /> terhadap Desa Digital
+          {t.rich("title", {
+            br: () => <br />
+          })}
         </Text>
         <Button
           width="87px"
@@ -31,7 +35,7 @@ const Rediness: React.FC = () => {
           fontWeight="500"
           padding="6px 20px"
         >
-          Di sini
+          {t("button")}
         </Button>
       </Box>
     </Flex>

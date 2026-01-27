@@ -1,0 +1,105 @@
+{
+    "Home": {
+        "title": "Desa Digital Indonesia",
+        "searchPlaceholder": "Cari Inovasi di sini...",
+        "addInnovation": "Tambah Inovasi",
+        "welcome": "Selamat Datang di",
+        "description": "KMS Desa Digital",
+        "country": "Indonesia",
+        "categories": "Kategori Inovasi",
+        "featuredVillages": "Desa Unggulan",
+        "featuredInnovators": "Inovator Unggulan",
+        "bestTitle": "Inovator dan Desa Unggulan"
+    },
+    "Categories": {
+        "smartAgri": "Pertanian Cerdas",
+        "agriFood": "Pemasaran Agri-Food dan E-Commerce",
+        "eGovernment": "E-Government",
+        "infoSystem": "Sistem Informasi",
+        "localInfra": "Infrastruktur Lokal",
+        "allInno": "Semua Kategori Inovasi",
+        "verifDesa": "Verifikasi Desa",
+        "verifInno": "Verifikasi Inovator",
+        "verifClaim": "Verifikasi Klaim Inovasi",
+        "verifAddInno": "Verifikasi Tambah Inovasi",
+        "adsMake": "Pembuatan Iklan",
+        "communityDev": "Pengembangan Masyarakat dan Ekonomi",
+        "financialService": "Layanan Keuangan",
+        "resourceMgmt": "Pengelolaan Sumber Daya",
+        "socialService": "Layanan Sosial",
+        "eTourism": "E-Tourism"
+    },
+    "Components": {
+        "rediness": {
+            "title": "Cek Kesiapan Dirimu terhadap Desa Digital",
+            "button": "Di sini"
+        },
+        "ads": {
+            "findInno": "Temukan inovasi yang kamu inginkan disini",
+            "presenting": "Menyajikan",
+            "infoInno": "Informasi inovasi digital desa",
+            "findDesa": "Temukan desa digital yang kamu inginkan disini",
+            "desaIndo": "Desa digital di Indonesia",
+            "learnMore": "Ketahui lebih lanjut"
+        }
+    },
+    "Common": {
+        "login": "Masuk",
+        "navbar": {
+            "home": "Beranda",
+            "village": "Desa Digital",
+            "innovator": "Inovator"
+        }
+    },
+    "Innovator": {
+        "selectInnovator": "Pilih Inovator",
+        "searchPlaceholder": "Cari Inovator...",
+        "showAll": "Menampilkan semua inovator untuk",
+        "allCategory": "Semua Kategori",
+        "categories": {
+            "startup": "Start-up",
+            "govUnder": "Di bawah Pemerintah",
+            "govLocal": "Pemerintah Daerah",
+            "agribisnis": "Agribisnis",
+            "company": "Perusahaan",
+            "agriOrg": "Organisasi Pertanian",
+            "financial": "Layanan Finansial",
+            "ngo": "Lembaga Swadaya Masyarakat (LSM)",
+            "academic": "Akademisi"
+        }
+    },
+    "Village": {
+        "selectProvince": "Pilih Provinsi",
+        "selectRegency": "Pilih Kab/Kota",
+        "searchPlaceholder": "Cari nama desa...",
+        "showAll": "Menampilkan semua desa untuk",
+        "allProvince": "Semua Provinsi"
+    },
+    "FAQ": {
+        "title": "Bantuan dan FAQ",
+        "contactSupport": "Kontak Support",
+        "drawerDesc": "Hubungi admin KMS Desa Digital Indonesia jika Anda butuh info lebih lanjut",
+        "questions": [
+            {
+                "title": "Apa itu KMS Desa Digital Indonesia?",
+                "description": "KMS Desa Digital Indonesia adalah website yang dirancang untuk mengumpulkan, mengelola, dan menyebarkan informasi inovasi desa digital di berbagai desa digital di Indonesia. Pengguna KMS yaitu masyarakat, inovator, serta perangkat desa."
+            },
+            {
+                "title": "Apa yang bisa saya lakukan di KMS?",
+                "description": "Anda dapat melihat inovasi digital desa melihat inovator dari inovasi, dan melihat berbagai informasi desa digital di Indonesia. Sebagai perangkat desa, Anda bisa mengajukan klaim penerapan inovasi. Sebagai inovator, Anda bisa menambahkan informasi tentang inovasi Anda."
+            },
+            {
+                "title": "Bagaimana cara mengklaim inovasi?",
+                "description": "Anda tidak dapat melakukan klaim perorangan. Klaim hanya dapat dilakukan melalui akun desa. Untuk itu desa Anda harus mendaftarkan akun dan melengkapi profil desa sebelum mengajukan klaim inovasi. Setelah melengkapi profil desa, pengajuan klaim dapat dilakukan melalui halaman inovasi yang anda inginkan."
+            },
+            {
+                "title": "Bagaimana mengklaim inovasi yang belum terdaftar pada KMS?",
+                "description": "Anda dapat mengklaim inovasi yang belum terdaftar pada website dengan melakukan klaim manual. Klaim manual dapat dilakukan melalui halaman pengajuan klaim. Anda perlu memasukkan bukti klaim, informasi inovasi dan inovator."
+            }
+        ]
+    },
+    "Innovation": {
+        "title": "Kategori Inovasi",
+        "notFound": "Inovasi tidak ditemukan"
+    }
+}

@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import { getCategories } from "Services/categoryServices";
 import Loading from "Components/loading";
 import { Container as CategoryContainer } from "./_styles";
+import { useTranslations } from "next-intl";
 
 type ListProps = {
     data: any;
@@ -19,12 +20,30 @@ type ListProps = {
 
 function List(props: ListProps) {
     const { data, isFetched, isLoading } = props;
+    const tc = useTranslations("Categories");
 
     const router = useRouter();
     const [menu, setMenu] = useState<any[]>([]);
 
     const handleClick = (category: string) => {
         router.push(`/innovation/${category}`);
+    };
+
+    const getTranslatedTitle = (title: string) => {
+        switch (title) {
+            case "Pertanian Cerdas": return tc("smartAgri");
+            case "Pemasaran Agri-Food dan E-Commerce": return tc("agriFood");
+            case "E-Government": return tc("eGovernment");
+            case "Sistem Informasi": return tc("infoSystem");
+            case "Infrastruktur Lokal": return tc("localInfra");
+            case "Semua Kategori Inovasi": return tc("allInno");
+            case "Pengembangan Masyarakat dan Ekonomi": return tc("communityDev");
+            case "Layanan Keuangan": return tc("financialService");
+            case "Pengelolaan Sumber Daya": return tc("resourceMgmt");
+            case "Layanan Sosial": return tc("socialService");
+            case "E-Tourism": return tc("eTourism");
+            default: return title;
+        }
     };
 
     useEffect(() => {
@@ -41,6 +60,7 @@ function List(props: ListProps) {
                 menu.map((item: any, idx: number) => (
                     <CardCategory
                         {...item}
+                        title={getTranslatedTitle(item.title)}
                         key={idx}
                         onClick={() => handleClick(item.title)}
                     />
@@ -50,6 +70,7 @@ function List(props: ListProps) {
 }
 
 export default function InnovationPage() {
+    const t = useTranslations("Innovation");
     const router = useRouter();
     const { data, isFetched, isLoading } = useQuery("category", getCategories);
 
@@ -61,7 +82,7 @@ export default function InnovationPage() {
 
     return (
         <Container page>
-            <TopBar title="Kategori Inovasi" onBack={() => router.back()} />
+            <TopBar title={t("title")} onBack={() => router.back()} />
             <CategoryContainer>
                 <List {...listProps} />
             </CategoryContainer>

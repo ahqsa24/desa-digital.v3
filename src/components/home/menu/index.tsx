@@ -8,6 +8,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { getCategories } from "Services/categoryServices";
 import { GridContainer, GridItem, MenuContainer } from "./_menuStyle";
+import { useTranslations } from "next-intl";
 
 import AgriFoodIcon from "@public/icons/agri-food.svg";
 import EGovernmentIcon from "@public/icons/e-government.svg";
@@ -62,10 +63,29 @@ const LoadingSpinner = () => {
 };
 
 const Menu: React.FC<MenuProps> = ({ isAdmin = false }) => {
+  const t = useTranslations("Home");
+  const tc = useTranslations("Categories");
   const { isLoading, isFetched } = useQuery("menu", getCategories);
 
   // Ambil menuItems secara langsung tanpa state tambahan
   const menuItems = isAdmin ? adminMenu : predefinedCategories;
+
+  const getTranslatedTitle = (title: string) => {
+    switch (title) {
+      case "Pertanian Cerdas": return tc("smartAgri");
+      case "Pemasaran Agri-Food dan E-Commerce": return tc("agriFood");
+      case "E-Government": return tc("eGovernment");
+      case "Sistem Informasi": return tc("infoSystem");
+      case "Infrastruktur Lokal": return tc("localInfra");
+      case "Semua Kategori Inovasi": return tc("allInno");
+      case "Verifikasi Desa": return tc("verifDesa");
+      case "Verifikasi Inovator": return tc("verifInno");
+      case "Verifikasi Klaim Inovasi": return tc("verifClaim");
+      case "Verifikasi Tambah Inovasi": return tc("verifAddInno");
+      case "Pembuatan Iklan": return tc("adsMake");
+      default: return title;
+    }
+  };
 
   return (
     <Container>
@@ -79,7 +99,7 @@ const Menu: React.FC<MenuProps> = ({ isAdmin = false }) => {
             fontWeight="700"
             color="brand.100"
           >
-            Kategori Inovasi
+            {t("categories")}
           </Text>
         )}
         {isFetched && (
@@ -108,7 +128,7 @@ const Menu: React.FC<MenuProps> = ({ isAdmin = false }) => {
                   height="auto"
                   color="black"
                 >
-                  {title}
+                  {getTranslatedTitle(title)}
                 </Text>
               </GridItem>
             ))}

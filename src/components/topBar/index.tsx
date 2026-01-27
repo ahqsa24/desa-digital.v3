@@ -13,6 +13,7 @@ import { useUser } from "src/contexts/UserContext";
 import { auth, firestore } from "../../firebase/clientApp";
 import UserMenu from "./RightContent/UserMenu";
 import { FaCheck } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 
 type TopBarProps = {
   title: string | undefined;
@@ -22,6 +23,7 @@ type TopBarProps = {
 };
 
 function TopBar(props: TopBarProps) {
+  const t = useTranslations("Common");
   const { title, onBack, onFilterClick, rightElement } = props;
   const router = useRouter();
   const pathname = usePathname();
@@ -144,7 +146,7 @@ function TopBar(props: TopBarProps) {
 
   return (
     <Box
-      padding="0 16px"
+      padding="0 12px"
       backgroundColor="#347357"
       position="fixed"
       top="0"
@@ -152,14 +154,10 @@ function TopBar(props: TopBarProps) {
       width="100%"
       height="56px"
       zIndex="999"
-      alignContent="center"
     >
       <Flex
-        justify={
-          isClaimButtonVisible || isUserMenuVisible
-            ? "space-between"
-            : "flex-start"
-        }
+        h="100%"
+        justify="space-between"
         align="center"
       >
         {!!onBack && (
@@ -172,18 +170,18 @@ function TopBar(props: TopBarProps) {
           />
         )}
         <Text
-          fontSize={title && title.split(" ").length > 3 ? "14px" : "16px"}
+          fontSize="15px"
           fontWeight="700"
           color="white"
           ml={onBack ? "8px" : "0"}
-          lineHeight="56px"
+          isTruncated
           flex={1}
-          textAlign="left"
+          mr={2}
         >
           {title}
         </Text>
 
-        <Flex align="center" gap={2}>
+        <Flex align="center" gap={0}>
           {rightElement}
 
           {isClaimButtonVisible && village && (
@@ -208,7 +206,7 @@ function TopBar(props: TopBarProps) {
             (user ? (
               <UserMenu user={user} />
             ) : (
-              <Flex gap="1px">
+              <Flex align="center" gap="1px">
                 <Button
                   as={IconButton}
                   icon={(
@@ -234,7 +232,7 @@ function TopBar(props: TopBarProps) {
                   cursor="pointer"
                   variant="link"
                 >
-                  Masuk
+                  {t("login")}
                 </Button>
               </Flex>
             ))}

@@ -26,8 +26,11 @@ import Innovator from "src/components/home/innovator";
 import Villages from "src/components/home/villages";
 import Menu from "src/components/home/menu";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "Components/topBar/LanguageSwitcher";
 
 export default function Home() {
+  const t = useTranslations("Home");
   const router = useRouter();
   const { role, isInnovatorVerified, loading } = useUser()
   const [searchValue, setSearchValue] = useState("");
@@ -73,17 +76,20 @@ export default function Home() {
 
   return (
     <Container page>
-      <TopBar title="Desa Digital Indonesia" />
+      <TopBar
+        title={t("title")}
+        rightElement={<LanguageSwitcher />}
+      />
       <Hero
-        description="KMS Desa Digital"
-        text="Indonesia"
+        description={t("description")}
+        text={t("country")}
         isAdmin={role === "admin"}
         isInnovator={role === "innovator"}
         isVillage={role === "village"}
       />
       <Stack direction="column" gap={2}>
         <SearchBarLink
-          placeholderText="Cari Inovasi di sini..."
+          placeholderText={t("searchPlaceholder")}
           value={searchValue}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
           onKeyDown={handleSearchSubmit}
@@ -104,7 +110,7 @@ export default function Home() {
       </Stack>
       {role === "innovator" && (
         <Tooltip
-          label="Tambah Inovasi"
+          label={t("addInnovation")}
           aria-label="Tambah Inovasi Tooltip"
           placement="top"
           hasArrow

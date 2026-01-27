@@ -14,6 +14,12 @@ import {
     Text,
     Button,
     useDisclosure,
+    Drawer,
+    DrawerBody,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
 } from '@chakra-ui/react';
 import {
     Description,
@@ -21,48 +27,30 @@ import {
 } from "./_styles";
 import TopBar from 'Components/topBar';
 import circle from "@public/icons/circlegreen.svg";
-import {
-    Drawer,
-    DrawerBody,
-    DrawerHeader,
-    DrawerOverlay,
-    DrawerContent,
-    DrawerCloseButton,
-} from '@chakra-ui/react'
 import Whatsapp from "@public/icons/whatsapp.svg";
 import Envelope from "@public/icons/envelope.svg";
+import { useTranslations } from 'next-intl';
 
-
-const accordionData = [
-    {
-        title: "Apa itu KMS Desa Digital Indonesia?",
-        description: "KMS Desa Digital Indonesia adalah website yang dirancang untuk mengumpulkan, mengelola, dan menyebarkan informasi inovasi desa digital di berbagai desa digital di Indonesia. Pengguna KMS yaitu masyarakat, inovator, serta perangkat desa."
-    },
-    {
-        title: "Apa yang bisa saya lakukan di KMS?",
-        description: "Anda dapat melihat inovasi digital desa melihat inovator dari inovasi, dan melihat berbagai informasi desa digital di Indonesia. Sebagai perangkat desa, Anda bisa mengajukan klaim penerapan inovasi. Sebagai inovator, Anda bisa menambahkan informasi tentang inovasi Anda."
-    },
-    {
-        title: "Bagaimana cara mengklaim inovasi?",
-        description: "Anda tidak dapat melakukan klaim perorangan. Klaim hanya dapat dilakukan melalui akun desa. Untuk itu desa Anda harus mendaftarkan akun dan melengkapi profil desa sebelum mengajukan klaim inovasi. Setelah melengkapi profil desa, pengajuan klaim dapat dilakukan melalui halaman inovasi yang anda inginkan."
-    },
-    {
-        title: "Bagaimana mengklaim inovasi yang belum terdaftar pada KMS?",
-        description: "Anda dapat mengklaim inovasi yang belum terdaftar pada website dengan melakukan klaim manual. Klaim manual dapat dilakukan melalui halaman pengajuan klaim. Anda perlu memasukkan bukti klaim, informasi inovasi dan inovator."
-    },
-];
 
 const BantuanFAQ: React.FC = () => {
+    const t = useTranslations("FAQ");
     const { isOpen, onOpen, onClose } = useDisclosure();
     const router = useRouter();
+
+    // Mengambil data pertanyaan dari file translasi
+    const questions = [0, 1, 2, 3].map(i => ({
+        title: t(`questions.${i}.title`),
+        description: t(`questions.${i}.description`)
+    }));
+
     return (
         <Box>
             {/* Top Bar */}
-            <TopBar title="Bantuan dan FAQ" onBack={() => router.back()} />
+            <TopBar title={t("title")} onBack={() => router.back()} />
             <Stack padding="16px" gap="16px" paddingTop="70px">
                 <Flex>
                     <Accordion width="360px" allowMultiple>
-                        {accordionData.map((item, index) => (
+                        {questions.map((item, index) => (
                             <Flex
                                 key={index}
                                 mb="12px"
@@ -99,7 +87,7 @@ const BantuanFAQ: React.FC = () => {
             </Stack>
             <NavbarButton>
                 <Button width="100%" maxWidth="328px" onClick={onOpen} fontSize="16px" >
-                    Kontak Support
+                    {t("contactSupport")}
                 </Button>
             </NavbarButton>
             <Drawer
@@ -114,6 +102,7 @@ const BantuanFAQ: React.FC = () => {
                         width: "360px",
                         my: "auto",
                         mx: "auto",
+                        zIndex: 1001
                     }}>
                     <DrawerCloseButton marginTop="4px" color="#1F2937" />
                     <DrawerHeader
@@ -122,10 +111,10 @@ const BantuanFAQ: React.FC = () => {
                             justifyContent: "center",
                             color: "#1F2937",
                             fontSize: "16px",
-                        }}>Kontak Support</DrawerHeader>
+                        }}>{t("contactSupport")}</DrawerHeader>
                     <DrawerBody fontSize={12} color="#374151" paddingX={4} gap={4}>
-                        Hubungi admin KMS Desa Digital Indonesia jika Anda butuh info lebih lanjut
-                        <Flex width="328px" align-items="flex-start" gap="16px" padding="4px 0px 4px">
+                        {t("drawerDesc")}
+                        <Flex width="328px" align-items="flex-start" gap="16px" padding="4px 0px 4px" mt={2}>
                             <img src={Whatsapp.src} alt="WA" width="16px" height="16px" />
                             00000000000
                         </Flex>
