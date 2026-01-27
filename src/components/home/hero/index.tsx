@@ -12,29 +12,29 @@ type HeroProps = {
 };
 
 
-const Hero: React.FC<HeroProps> = ({ 
-  description, 
-  text, 
-  customTitle, 
+const Hero: React.FC<HeroProps> = ({
+  description,
+  text,
+  customTitle,
   gapSize,
   minHeight,
-  isAdmin = false, 
-  isInnovator = false, 
-  isVillage = false 
+  isAdmin = false,
+  isInnovator = false,
+  isVillage = false
 }) => {
   return (
-    <Background 
-      isAdmin={isAdmin} 
-      isInnovator={isInnovator} 
-      isVillage={isVillage} 
-      minHeight={minHeight}
+    <Background
+      $isAdmin={isAdmin}
+      $isInnovator={isInnovator}
+      $isVillage={isVillage}
+      $minHeight={minHeight}
     >
-        <Container gapSize={gapSize} >
-          <Title color="#1A202C">{customTitle || "Selamat Datang di"}</Title>
-          <Description color="#1A202C">
-            {description} <br /> {text}
-          </Description>
-        </Container>
+      <Container gapSize={gapSize} >
+        <Title color="#1A202C">{customTitle || "Selamat Datang di"}</Title>
+        <Description color="#1A202C">
+          {description} <br /> {text}
+        </Description>
+      </Container>
     </Background>
   );
 };

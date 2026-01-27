@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Image, Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure, Button, } from "@chakra-ui/react";
 import { SearchIcon } from '@chakra-ui/icons'
-import { Icon } from "src/app/village/detail/[id]/_styles";
 interface EnlargedImageProps {
     src: string;
 }

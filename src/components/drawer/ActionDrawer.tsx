@@ -11,6 +11,7 @@ import {
 import Instagram from "@public/icons/instagram.svg";
 import Web from "@public/icons/web.svg";
 import Whatsapp from "@public/icons/whatsapp.svg";
+import JavascriptImage from "next/image";
 import React from "react";
 import {
   ButtonKontak,
@@ -117,19 +118,19 @@ const ActionDrawer: React.FC<ActionDrawerProps> = ({
 
               {/* Tombol WA */}
               <ButtonKontak as="a" href={contactData?.whatsapp ? `https://wa.me/${contactData.whatsapp}` : "#"} target="_blank">
-                <Icon src={Whatsapp} alt="WA" />
+                <JavascriptImage src={Whatsapp} alt="WA" width={24} height={24} style={{ width: '24px', height: '24px' }} />
                 WhatsApp
               </ButtonKontak>
 
               {/* Tombol ig */}
               <ButtonKontak as="a" href={contactData?.instagram || "#"} target="_blank">
-                <Icon src={Instagram} alt="IG" />
+                <JavascriptImage src={Instagram} alt="IG" width={24} height={24} style={{ width: '24px', height: '24px' }} />
                 Instagram
               </ButtonKontak>
 
               {/* Tombol web */}
               <ButtonKontak as="a" href={contactData?.website || "#"} target="_blank">
-                <Icon src={Web} alt="Web" />
+                <JavascriptImage src={Web} alt="Web" width={24} height={24} style={{ width: '24px', height: '24px' }} />
                 Website
               </ButtonKontak>
             </DrawerBody>

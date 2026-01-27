@@ -209,7 +209,7 @@ const DetailVillages = ({ selectedCategory, onRowClick }: Props) => {
             <MenuButton
               as={IconButton}
               aria-label="Download menu"
-              icon={<Image src={downloadIcon} alt="Download" boxSize="16px" />}
+              icon={<Image src={downloadIcon.src} alt="Download" boxSize="16px" />}
               variant="ghost"
               _hover={{ bg: 'gray.100' }}
             />

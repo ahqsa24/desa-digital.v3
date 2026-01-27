@@ -11,39 +11,39 @@ export const marginStyle = (props: MarginProps) => {
   let styles = ''
   const { mx, my, ml, mr, mt, mb } = props
 
-  if (mx) {
+  if (mx !== undefined) {
     styles += `
         margin-left: ${mx}px; 
         margin-right: ${mx}px;
     `
   }
 
-  if (my) {
+  if (my !== undefined) {
     styles += `
         margin-top: ${my}px;
         margin-bottom: ${my}px;
     `
   }
 
-  if (ml) {
+  if (ml !== undefined) {
     styles += `
         margin-left: ${ml}px;
     `
   }
 
-  if (mr) {
+  if (mr !== undefined) {
     styles += `
         margin-right: ${mr}px;    
     `
   }
 
-  if (mt) {
+  if (mt !== undefined) {
     styles += `
         margin-top: ${mt}px;
     `
   }
 
-  if (mb) {
+  if (mb !== undefined) {
     styles += `
         margin-bottom: ${mb}px;
     `
@@ -65,39 +65,39 @@ export const paddingStyle = (props: PaddingProps) => {
   let styles = ''
   const { px, py, pl, pr, pt, pb } = props
 
-  if (px) {
+  if (px !== undefined) {
     styles += `
         padding-left: ${px}px; 
         padding-right: ${px}px;
     `
   }
 
-  if (py) {
+  if (py !== undefined) {
     styles += `
         padding-top: ${py}px;
         padding-bottom: ${py}px;
     `
   }
 
-  if (pl) {
+  if (pl !== undefined) {
     styles += `
         padding-left: ${pl}px;
     `
   }
 
-  if (pr) {
+  if (pr !== undefined) {
     styles += `
         padding-right: ${pr}px;    
     `
   }
 
-  if (pt) {
+  if (pt !== undefined) {
     styles += `
         padding-top: ${pt}px;
     `
   }
 
-  if (pb) {
+  if (pb !== undefined) {
     styles += `
         padding-bottom: ${pb}px;
     `

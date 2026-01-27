@@ -8,7 +8,8 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { Box, Flex, Text, Image } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import DateRangeFilter from "./dateFilter";
 import filterIcon from "@public/icons/icon-filter.svg";
 
@@ -145,14 +146,15 @@ const InfoCards = () => {
             Periode: {from?.toLocaleDateString()} - {to?.toLocaleDateString()}
           </Text>
         </Box>
-        <Image
-          onClick={() => setShowFilter(true)}
-          src={filterIcon}
-          alt="Filter"
-          boxSize="16px"
-          cursor="pointer"
-          mt={2}
-        />
+        <Box as="div" onClick={() => setShowFilter(true)} cursor="pointer" mt={2}>
+          <Image
+            src={filterIcon}
+            alt="Filter"
+            width={16}
+            height={16}
+            style={{ width: '16px', height: '16px' }}
+          />
+        </Box>
       </Flex>
 
       <Flex direction={{ base: "column", md: "row" }} gap={4}>

@@ -29,7 +29,7 @@ function CardVillage(props: CardVillageProps) {
   const { provinsi, kabupatenKota, logo, header, namaDesa, onClick, ranking, jumlahInovasiDiterapkan, isHome } = props;
 
   return (
-    <Container onClick={onClick} isHome={isHome}>
+    <Container onClick={onClick} $isHome={isHome}>
       <Background src={header} alt="background" />
       <CardContent>
         <Logo src={logo} alt={logo} />

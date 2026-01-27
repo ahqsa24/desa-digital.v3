@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 
-export const Container = styled.div<{ isHome?: boolean }>`
+export const Container = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== '$isHome'
+}) <{ $isHome?: boolean }>`
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   display: flex;
-  width: ${(props) => (props.isHome ? '38%' : '100%')};
+  width: ${(props) => (props.$isHome ? '38%' : '100%')};
   flex-shrink: 0;
   height: 197px;
   flex-direction: column;
@@ -76,7 +78,7 @@ export const Description = styled.p`
   text-overflow: ellipsis;
 `;
 
-export const Location = styled.p`
+export const Location = styled.div`
   display: flex;
   align-items: center;
   gap: 2px;

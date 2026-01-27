@@ -22,6 +22,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
@@ -181,14 +182,30 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
           padding={1}
           as={IconButton}
           aria-label="Options"
-          icon={<img src={notification} alt="Bell" width="24" height="24" />}
+          icon={(
+            <Image
+              src={notification}
+              alt="Bell"
+              width={24}
+              height={24}
+              style={{ width: '24px', height: '24px' }}
+            />
+          )}
           height="40px"
           alignSelf="center"
         />
         <MenuButton
           as={IconButton}
           aria-label="Options"
-          icon={<img src={profileIcon} alt="Profile" width="24" height="24" />}
+          icon={(
+            <Image
+              src={profileIcon}
+              alt="Profile"
+              width={24}
+              height={24}
+              style={{ width: '24px', height: '24px' }}
+            />
+          )}
           height="40px"
           alignSelf="center"
         />

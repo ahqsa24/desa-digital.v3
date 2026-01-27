@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  Text, Box, Flex, Button, Image,
+  Text, Box, Flex, Button,
   Table, Thead, Tbody, Tr, Th, Td,
   TableContainer,
   Menu,
@@ -9,6 +9,7 @@ import {
   MenuItem,
   IconButton,
 } from "@chakra-ui/react";
+import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { getAuth } from "firebase/auth";
 import {
@@ -387,7 +388,15 @@ const DetailVillages: React.FC<DetailVillagesProps> = ({ onSelectVillage }) => {
             <MenuButton
               as={IconButton}
               aria-label="Download options"
-              icon={<Image src={downloadIcon} alt="Download" boxSize="16px" />}
+              icon={(
+                <Image
+                  src={downloadIcon}
+                  alt="Download"
+                  width={16}
+                  height={16}
+                  style={{ width: '16px', height: '16px' }}
+                />
+              )}
               variant="ghost"
             />
             <MenuList>

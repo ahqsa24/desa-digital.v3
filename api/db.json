@@ -52,57 +52,57 @@
   ],
   "categories": [
     {
-      "icon": "./public/icons/smart-agri.svg",
+      "icon": "/icons/smart-agri.svg",
       "title": "Pertanian Cerdas",
       "description": "Pertanian yang menggunakan teknologi untuk membantu petani dalam mengelola tanaman dan hewan ternak mereka."
     },
     {
-      "icon": "./public/icons/agri-food.svg",
+      "icon": "/icons/agri-food.svg",
       "title": "Pemasaran Agri-Food dan E-Commerce",
       "description": "Menjual makanan dan produk pertanian secara online menggunakan teknologi seperti internet dan aplikasi."
     },
     {
-      "icon": "./public/icons/e-government.svg",
+      "icon": "/icons/e-government.svg",
       "title": "E-Government",
       "description": "Pemerintah yang menggunakan teknologi seperti internet dan aplikasi untuk membantu masyarakat berinteraksi dengan pemerintah."
     },
     {
-      "icon": "./public/icons/information-system.svg",
+      "icon": "/icons/information-system.svg",
       "title": "Sistem Informasi",
       "description": "Sebuah sistem yang mengumpulkan dan memproses informasi sehingga dapat diakses dan digunakan untuk berbagai keperluan."
     },
     {
-      "icon": "./public/icons/local-infrastructure.svg",
+      "icon": "/icons/local-infrastructure.svg",
       "title": "Infrastruktur Lokal",
       "description": "Upaya untuk meningkatkan kualitas  infrastruktur (jalan, air, listrik) di suatu daerah."
     },
     {
-      "icon": "./public/icons/community-development.svg",
+      "icon": "/icons/community-development.svg",
       "title": "Pengembangan Masyarakat dan Ekonomi",
       "description": "Upaya untuk meningkatkan kualitas masyarakat dan perekonomian di suatu daerah."
     },
     {
-      "icon": "./public/icons/financial.svg",
+      "icon": "/icons/financial.svg",
       "title": "Layanan Keuangan",
       "description": "Layanan yang membantu orang untuk mengelola uang mereka, seperti menabung, meminjam, atau berinvestasi."
     },
     {
-      "icon": "./public/icons/resources.svg",
+      "icon": "/icons/resources.svg",
       "title": "Pengelolaan Sumber Daya",
       "description": "Memanfaatkan sumber daya (air, tanah, energi) dengan cara yang bertanggung jawab dan berkelanjutan."
     },
     {
-      "icon": "./public/icons/social-service.svg",
+      "icon": "/icons/social-service.svg",
       "title": "Layanan Sosial",
       "description": "Layanan yang membantu orang yang membutuhkan seperti layanan kesehatan atau bantuan sosial."
     },
     {
-      "icon": "./public/icons/e-tourism.svg",
+      "icon": "/icons/e-tourism.svg",
       "title": "E-Tourism",
       "description": "Pariwisata yang memanfaatkan teknologi seperti internet untuk membantu orang merencanakan dan memilih destinasi wisata."
     },
     {
-      "icon": "./public/icons/menu-all.svg",
+      "icon": "/icons/menu-all.svg",
       "title": "Lihat Semua",
       "description": ""
     }

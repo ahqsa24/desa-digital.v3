@@ -146,7 +146,7 @@ const InfoCards = () => {
         </Box>
         <Image
           onClick={() => setShowFilter(true)}
-          src={filterIcon}
+          src={filterIcon.src}
           alt="Filter"
           boxSize="16px"
           cursor="pointer"
