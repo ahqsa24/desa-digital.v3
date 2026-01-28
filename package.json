@@ -32,6 +32,7 @@
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "lucide-react": "^0.477.0",
     "next": "^15.1.6",
+    "next-intl": "^4.7.0",
     "query-string": "^9.2.0",
     "react": "^19.0.0",
     "react-datepicker": "^8.3.0",

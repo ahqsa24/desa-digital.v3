@@ -1,0 +1,105 @@
+{
+    "Home": {
+        "title": "Digital Village Indonesia",
+        "searchPlaceholder": "Search Innovations here...",
+        "addInnovation": "Add Innovation",
+        "welcome": "Welcome to",
+        "description": "Digital Village KMS",
+        "country": "Indonesia",
+        "categories": "Innovation Categories",
+        "featuredVillages": "Featured Villages",
+        "featuredInnovators": "Featured Innovators",
+        "bestTitle": "Featured Innovators and Villages"
+    },
+    "Categories": {
+        "smartAgri": "Smart Agriculture",
+        "agriFood": "Agri-Food Marketing and E-Commerce",
+        "eGovernment": "E-Government",
+        "infoSystem": "Information System",
+        "localInfra": "Local Infrastructure",
+        "allInno": "All Innovation Categories",
+        "verifDesa": "Village Verification",
+        "verifInno": "Innovator Verification",
+        "verifClaim": "Innovation Claim Verification",
+        "verifAddInno": "Add Innovation Verification",
+        "adsMake": "Ads Creation",
+        "communityDev": "Community and Economic Development",
+        "financialService": "Financial Services",
+        "resourceMgmt": "Resource Management",
+        "socialService": "Social Services",
+        "eTourism": "E-Tourism"
+    },
+    "Components": {
+        "rediness": {
+            "title": "Check Your Readiness for Digital Village",
+            "button": "Here"
+        },
+        "ads": {
+            "findInno": "Find the innovation you want here",
+            "presenting": "Presenting",
+            "infoInno": "Digital innovation info for the village",
+            "findDesa": "Find the digital village you want here",
+            "desaIndo": "Digital villages in Indonesia",
+            "learnMore": "Learn more"
+        }
+    },
+    "Common": {
+        "login": "Login",
+        "navbar": {
+            "home": "Home",
+            "village": "Digital Village",
+            "innovator": "Innovator"
+        }
+    },
+    "Innovator": {
+        "selectInnovator": "Select Innovator",
+        "searchPlaceholder": "Search Innovators...",
+        "showAll": "Showing all innovators for",
+        "allCategory": "All Categories",
+        "categories": {
+            "startup": "Start-up",
+            "govUnder": "Under Government",
+            "govLocal": "Local Government",
+            "agribisnis": "Agribusiness",
+            "company": "Company",
+            "agriOrg": "Agriculture Organization",
+            "financial": "Financial Services",
+            "ngo": "Non-Governmental Organization (NGO)",
+            "academic": "Academia"
+        }
+    },
+    "Village": {
+        "selectProvince": "Select Province",
+        "selectRegency": "Select Regency/City",
+        "searchPlaceholder": "Search village name...",
+        "showAll": "Showing all villages for",
+        "allProvince": "All Provinces"
+    },
+    "FAQ": {
+        "title": "Help and FAQ",
+        "contactSupport": "Contact Support",
+        "drawerDesc": "Contact the Digital Village KMS admin if you need more information",
+        "questions": [
+            {
+                "title": "What is Digital Village KMS Indonesia?",
+                "description": "Digital Village KMS Indonesia is a website designed to collect, manage, and disseminate information on digital village innovations in various digital villages in Indonesia. KMS users are the public, innovators, and village officials."
+            },
+            {
+                "title": "What can I do on KMS?",
+                "description": "You can see digital innovations for villages, look up the innovators behind them, and find various digital village information in Indonesia. As a village official, you can claim an innovation's implementation. As an innovator, you can add information about your innovation."
+            },
+            {
+                "title": "How do I claim an innovation?",
+                "description": "You cannot make an individual claim. Claims can only be made through a village account. For that, your village must register an account and complete the village profile before applying for an innovation claim. After completing the profile, claim submissions can be made through the innovation page you want."
+            },
+            {
+                "title": "How to claim an innovation that is not yet registered on KMS?",
+                "description": "You can claim an innovation that is not yet registered on the website by making a manual claim. Manual claims can be done through the claim application page. You need to enter proof of claim, innovation information, and innovator details."
+            }
+        ]
+    },
+    "Innovation": {
+        "title": "Innovation Categories",
+        "notFound": "Innovation not found"
+    }
+}

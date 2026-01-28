@@ -15,11 +15,31 @@ import { getDocuments, getDocumentById } from "src/firebase/inovationTable";
 import { DocumentData } from "firebase/firestore";
 
 import { Image } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 export default function InnovationCategoryPage() {
+    const t = useTranslations("Innovation");
+    const tc = useTranslations("Categories");
     const router = useRouter();
     const params = useParams();
     const category = decodeURIComponent(params.category as string);
+
+    const getTranslatedCategory = (cat: string) => {
+        switch (cat) {
+            case "Pertanian Cerdas": return tc("smartAgri");
+            case "Pemasaran Agri-Food dan E-Commerce": return tc("agriFood");
+            case "E-Government": return tc("eGovernment");
+            case "Sistem Informasi": return tc("infoSystem");
+            case "Infrastruktur Lokal": return tc("localInfra");
+            case "Semua Kategori Inovasi": return tc("allInno");
+            case "Pengembangan Masyarakat dan Ekonomi": return tc("communityDev");
+            case "Layanan Keuangan": return tc("financialService");
+            case "Pengelolaan Sumber Daya": return tc("resourceMgmt");
+            case "Layanan Sosial": return tc("socialService");
+            case "E-Tourism": return tc("eTourism");
+            default: return cat;
+        }
+    };
 
     const [data, setData] = useState<DocumentData[]>([]);
     const [innovators, setInnovators] = useState<Record<string, DocumentData>>(
@@ -65,10 +85,10 @@ export default function InnovationCategoryPage() {
 
     return (
         <Container page>
-            <TopBar title={category || "Kategori"} onBack={() => router.back()} />
+            <TopBar title={getTranslatedCategory(category)} onBack={() => router.back()} />
             <CategoryContainer>
                 {innovationByCategory.length === 0 ? (
-                    <p>Inovasi tidak ditemukan</p>
+                    <p>{t("notFound")}</p>
                 ) : (
                     <DetailContainer>
                         {innovationByCategory.map((item, idx) => (

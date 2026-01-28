@@ -1,9 +1,11 @@
 import { Box, Button, Flex, Fade, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 const defAds1 = "/images/default-ads-1.svg";
 const defAds2 = "/images/default-ads-2.svg";
 
 const Ads: React.FC = () => {
+  const t = useTranslations("Components.ads");
   const [visibleBox, setVisibleBox] = useState(0);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const Ads: React.FC = () => {
             lineHeight="140%"
             color="white"
           >
-            Temukan inovasi yang kamu inginkan disini
+            {t("findInno")}
           </Text>
           <Text
             fontSize="10px"
@@ -41,7 +43,7 @@ const Ads: React.FC = () => {
             lineHeight="140%"
             color="white"
           >
-            Menyajikan <br />{" "}
+            {t("presenting")} <br />{" "}
             <span
               style={{
                 fontSize: "28px",
@@ -52,7 +54,7 @@ const Ads: React.FC = () => {
               100+
             </span>
             <br />
-            Informasi inovasi digital desa
+            {t("infoInno")}
           </Text>
           <Flex justifyContent="flex-end" mt="12px">
             <Button
@@ -65,7 +67,7 @@ const Ads: React.FC = () => {
               height="16px"
               padding="6px 20px"
             >
-              Ketahui lebih lanjut
+              {t("learnMore")}
             </Button>
           </Flex>
         </Box>
@@ -88,7 +90,7 @@ const Ads: React.FC = () => {
             lineHeight="140%"
             color="white"
           >
-            Temukan desa digital yang kamu inginkan disini
+            {t("findDesa")}
           </Text>
           <Text
             fontSize="10px"
@@ -96,7 +98,7 @@ const Ads: React.FC = () => {
             lineHeight="140%"
             color="white"
           >
-            Menyajikan <br />{" "}
+            {t("presenting")} <br />{" "}
             <span
               style={{
                 fontSize: "28px",
@@ -107,7 +109,7 @@ const Ads: React.FC = () => {
               50+
             </span>
             <br />
-            Desa digital di Indonesia
+            {t("desaIndo")}
           </Text>
           <Flex justifyContent="flex-end" mt="10px">
             <Button
@@ -120,7 +122,7 @@ const Ads: React.FC = () => {
               height="16px"
               padding="6px 20px"
             >
-              Ketahui lebih lanjut
+              {t("learnMore")}
             </Button>
           </Flex>
         </Box>

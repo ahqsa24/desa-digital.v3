@@ -18,28 +18,29 @@ import { collection, DocumentData, getDocs } from "firebase/firestore";
 import { firestore } from "src/firebase/clientApp";
 import { useEffect, useState } from "react";
 import Container from "Components/container";
-// import { paddingStyle } from "Consts/sizing"; // not used in JSX
-
-const categories = [
-    "Semua Kategori",
-    "Start-up",
-    "Di bawah Pemerintah",
-    "Pemerintah Daerah",
-    "Agribisnis",
-    "Perusahaan",
-    "Organisasi Pertanian",
-    "Layanan Finansial",
-    "Lembaga Swadaya Masyarakat (LSM)",
-    "Akademisi",
-];
+import { useTranslations } from "next-intl";
 
 export default function InnovatorPage() {
+    const t = useTranslations("Innovator");
     const router = useRouter();
     const innovatorsRef = collection(firestore, "innovators");
     const [innovators, setInnovators] = useState<DocumentData[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [innovatorsShowed, setInnovatorsShowed] = useState<DocumentData[]>([]);
     const [categoryFilter, setCategoryFilter] = useState<string>("Semua Kategori");
+
+    const categories = [
+        { label: t("allCategory"), value: "Semua Kategori" },
+        { label: t("categories.startup"), value: "Start-up" },
+        { label: t("categories.govUnder"), value: "Di bawah Pemerintah" },
+        { label: t("categories.govLocal"), value: "Pemerintah Daerah" },
+        { label: t("categories.agribisnis"), value: "Agribisnis" },
+        { label: t("categories.company"), value: "Perusahaan" },
+        { label: t("categories.agriOrg"), value: "Organisasi Pertanian" },
+        { label: t("categories.financial"), value: "Layanan Finansial" },
+        { label: t("categories.ngo"), value: "Lembaga Swadaya Masyarakat (LSM)" },
+        { label: t("categories.academic"), value: "Akademisi" },
+    ];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,13 +64,15 @@ export default function InnovatorPage() {
         setInnovatorsShowed(filteredInnovators);
     }
 
+    const currentCategoryLabel = categories.find(c => c.value === categoryFilter)?.label || categoryFilter;
+
     return (
         <Container px={0} pb={70}>
             <Hero />
             <Containers>
                 <CardContent>
                     <Column>
-                        <Text>Pilih Inovator</Text>
+                        <Text>{t("selectInnovator")}</Text>
                         <Select
                             // placeholder="Pilih Kategori Inovator"
                             name="category"
@@ -90,13 +93,13 @@ export default function InnovatorPage() {
                             }}
                         >
                             {categories.map((category) => (
-                                <option key={category} value={category}>
-                                    {category}
+                                <option key={category.value} value={category.value}>
+                                    {category.label}
                                 </option>
                             ))}
                         </Select>
                         <SearchBarInnov
-                            placeholder="Cari Inovator..."
+                            placeholder={t("searchPlaceholder")}
                             value={searchQuery}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 setSearchQuery(e.target.value);
@@ -107,8 +110,8 @@ export default function InnovatorPage() {
                 </CardContent>
                 <Text>
                     {" "}
-                    Menampilkan semua inovator untuk{" "}
-                    <Texthighlight> "{categoryFilter}" </Texthighlight>{" "}
+                    {t("showAll")}{" "}
+                    <Texthighlight> "{currentCategoryLabel}" </Texthighlight>{" "}
                 </Text>
                 <GridContainer>
                     {innovatorsShowed.map((item: any, idx: number) => (

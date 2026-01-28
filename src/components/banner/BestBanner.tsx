@@ -1,5 +1,6 @@
 import { Box, Fade, Flex, Image, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 const first = "/icons/first.svg";
 const second = "/icons/seccond.svg";
 const third = "/icons/third.svg";
@@ -16,6 +17,7 @@ import {
 import { firestore } from "../../firebase/clientApp";
 
 const BestBanner: React.FC = () => {
+  const t = useTranslations("Home");
   const [visibleBox, setVisibleBox] = useState(0);
   const [villages, setVillages] = useState<DocumentData[]>([]);
   const [innovators, setInnovators] = useState<DocumentData[]>([]);
@@ -68,7 +70,7 @@ const BestBanner: React.FC = () => {
   return (
     <Box padding="0 14px" pos="relative" >
       <Text fontSize="16px" fontWeight="700" lineHeight="140%" mb="16px" color="#1F2937">
-        Inovator dan Desa Unggulan
+        {t("bestTitle")}
       </Text>
       <Box>
         <Flex position="relative">

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Background, Container, Title, Description } from "./_heroStyle";
 
 type HeroProps = {
@@ -22,6 +23,7 @@ const Hero: React.FC<HeroProps> = ({
   isInnovator = false,
   isVillage = false
 }) => {
+  const t = useTranslations("Home");
   return (
     <Background
       $isAdmin={isAdmin}
@@ -30,7 +32,7 @@ const Hero: React.FC<HeroProps> = ({
       $minHeight={minHeight}
     >
       <Container gapSize={gapSize} >
-        <Title color="#1A202C">{customTitle || "Selamat Datang di"}</Title>
+        <Title color="#1A202C">{customTitle || t("welcome")}</Title>
         <Description color="#1A202C">
           {description} <br /> {text}
         </Description>

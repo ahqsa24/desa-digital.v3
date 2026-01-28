@@ -13,6 +13,7 @@ import UserActive from "@public/icons/user-active.svg";
 import { paths } from "Consts/path";
 import Loading from "Components/loading";
 import { useAdminStatus } from "Hooks/useAdminStatus";
+import { useTranslations } from "next-intl";
 import {
   OuterContainer,
   Container,
@@ -22,6 +23,7 @@ import {
 } from "./_navbarStyle";
 
 const Navbar: React.FC = () => {
+  const t = useTranslations("Common.navbar");
   const router = useRouter();
   const pathname = usePathname();
   const { isAdmin, checking } = useAdminStatus();
@@ -41,19 +43,19 @@ const Navbar: React.FC = () => {
     {
       icon: Home,
       active: HomeActive,
-      label: "Beranda",
+      label: t("home"),
       path: isAdmin ? paths.ADMIN_PAGE : paths.LANDING_PAGE,
     },
     {
       icon: Village,
       active: VillageActive,
-      label: "Desa Digital",
+      label: t("village"),
       path: paths.VILLAGE_PAGE,
     },
     {
       icon: User,
       active: UserActive,
-      label: "Inovator",
+      label: t("innovator"),
       path: paths.INNOVATOR_PAGE,
     },
   ];

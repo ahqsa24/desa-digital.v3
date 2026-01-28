@@ -8,9 +8,7 @@ import { useRouter } from "next/navigation";
 import { getUsers } from "Services/userServices";
 import { firestore } from "@/firebase/clientApp";
 import { CardContainer, Horizontal, Title } from "./_villagesStyle";
-
-
-
+import { useTranslations } from "next-intl";
 import {
   collection,
   DocumentData,
@@ -21,9 +19,9 @@ import {
 } from "firebase/firestore";
 
 const Village: React.FC = () => {
+  const t = useTranslations("Home");
   const router = useRouter();
   const [villages, setVillages] = useState<DocumentData[]>([]);
-  // const { data: isFetched } = useQuery<any>("villages", getUsers);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +45,7 @@ const Village: React.FC = () => {
 
   return (
     <Box padding="0 14px">
-      <Title>Desa Unggulan</Title>
+      <Title>{t("featuredVillages")}</Title>
       <CardContainer>
         <Horizontal>
           {villages.map((item: any, idx: number) => (
