@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { connectToDatabase } from '@/lib/db/mongodb'
 import { ObjectId } from 'mongodb'
 import { requireRole } from '@/lib/auth/apiAuth'
+import { createNotification } from '@/services/notificationServices'
 
 type Params = Promise<{ id: string }>
 
@@ -29,13 +30,11 @@ export async function POST(request: NextRequest, { params }: { params: Params })
     const catatanAdmin = body.catatanAdmin ?? null
 
     const db = await connectToDatabase()
-
-    // Query for the claim
     let query: any = {}
     if (ObjectId.isValid(id)) {
       query._id = new ObjectId(id)
     } else {
-      query = { $or: [{ _id: id as any }, { id: id as any }] }
+      query._id = id
     }
 
     const claim = await db.collection('claimInnovations').findOne(query)
@@ -58,12 +57,44 @@ export async function POST(request: NextRequest, { params }: { params: Params })
       return NextResponse.json({ message: 'Klaim tidak ditemukan' }, { status: 404 })
     }
 
+    // Create notification for village
+    try {
+      const villageDesaId = claim.desaId
+      if (villageDesaId) {
+        // Resolve Firebase UID dari desaId — cari user desa di collection users
+        const villageUser = await db.collection('users').findOne(
+          { $or: [{ uid: villageDesaId }, { firebaseUid: villageDesaId }, { desaId: villageDesaId }] },
+          { projection: { uid: 1, firebaseUid: 1 } }
+        )
+        // Gunakan Firebase UID jika ketemu, fallback ke desaId (jika sudah Firebase UID)
+        const targetUserId = villageUser?.uid || villageUser?.firebaseUid || villageDesaId
+
+        const notifTitle = desiredStatus === 'Terverifikasi'
+          ? 'Klaim Inovasi Disetujui'
+          : 'Klaim Inovasi Ditolak'
+        const notifDescription = desiredStatus === 'Terverifikasi'
+          ? `Selamat! Klaim Anda untuk "${claim.namaInovasi}" telah disetujui oleh admin.`
+          : `Klaim Anda untuk "${claim.namaInovasi}" ditolak. Alasan: ${catatanAdmin || 'Tidak ada catatan'}`
+
+        await createNotification({
+          userId: targetUserId,
+          type: 'personal',
+          title: notifTitle,
+          description: notifDescription,
+          actionType: 'claim_detail',
+          relatedId: id,
+        })
+      }
+    } catch (notifError) {
+      console.error('Error creating notification for claim verification:', notifError)
+    }
+
     return NextResponse.json(
       {
         message:
           desiredStatus === 'Terverifikasi'
-            ? 'Klaim inovasi berhasil diverifikasi'
-            : 'Klaim inovasi berhasil ditolak',
+            ? 'Klaim berhasil diverifikasi'
+            : 'Klaim berhasil ditolak',
         claimId: id,
         status: desiredStatus,
       },
