@@ -61,3 +61,11 @@ export interface InnovationClaim {
   createdAt: string | Date;
   updatedAt?: string | Date;
 }
+
+export interface DigitalNudgeBadge {}
+
+export interface DigitalNudgeBadgeType {}
+
+export interface DigitalNudgeBadgeDesa {}
+
+export interface DigitalNudgeBadgeInovator {}
