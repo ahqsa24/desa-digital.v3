@@ -5,37 +5,40 @@ export interface DigitalNudgeBadge {
   criteria_desc: string;
 }
 
-export const getInnovatorBadges = (): DigitalNudgeBadge[] => {
+export const getInnovatorBadges = (
+  innovationCount: number,
+  villageCount: number
+): DigitalNudgeBadge[] => {
   return [
     {
-      name: "Terus Berkembang",
+      name: "Inovator Perintis",
       icon: "",
-      status: "diperoleh",
-      criteria_desc: "Terus aktif mengembangkan inovasi.",
+      status: innovationCount >= 1 ? "diperoleh" : "belum",
+      criteria_desc: "Memiliki minimal 1 inovasi.",
     },
     {
       name: "Si Inovatif",
       icon: "",
-      status: "diperoleh",
-      criteria_desc: "Memiliki inovasi yang memberikan dampak.",
+      status: innovationCount >= 15 ? "diperoleh" : "belum",
+      criteria_desc: "Memiliki minimal 15 inovasi.",
     },
     {
       name: "Kolaboratif Handal",
       icon: "",
-      status: "belum",
-      criteria_desc: "Aktif berkolaborasi dengan berbagai pihak.",
+      status: villageCount >= 15 ? "diperoleh" : "belum",
+      criteria_desc: "Memiliki minimal 15 desa dampingan.",
     },
     {
       name: "Sahabat Desa",
       icon: "",
-      status: "diperoleh",
-      criteria_desc: "Berkontribusi dalam pengembangan desa.",
+      status: villageCount >= 30 ? "diperoleh" : "belum",
+      criteria_desc: "Memiliki minimal 30 desa dampingan.",
     },
     {
       name: "Pemimpin Pasar",
       icon: "",
-      status: "belum",
-      criteria_desc: "Inovasi berhasil menjangkau pasar lebih luas.",
+      status: villageCount >= 100 ? "diperoleh" : "belum",
+      criteria_desc: "Memiliki minimal 100 desa dampingan.",
     },
   ];
 };

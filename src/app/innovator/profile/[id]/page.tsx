@@ -93,7 +93,10 @@ const ProfileInnovator: React.FC = () => {
 
     const { isAdmin, checking } = useAdminStatus();
 
-    const { badges } = useDigitalNudge();
+    const { badges } = useDigitalNudge(
+        innovations.length,
+        totalVillagesCount
+        );
 
     const handleVerify = async () => {
         setLoading(true);
@@ -308,19 +311,45 @@ const ProfileInnovator: React.FC = () => {
                             </Button>
                         )}
                     </Flex>
+                    
                     <Title>{innovatorData.namaInovator}</Title>
                     <Label>{innovatorData.kategori}</Label>
-                    <Flex direction="row" gap={3} mt={1} alignItems="center">
-                        <Icon as={FaWandMagicSparkles} color="#4B5563" />
-                        <Text fontSize="12px" fontWeight="400" color="#4B5563">
-                            {t("innovationsCount", { count: innovatorData.jumlahInovasi })}
+
+                    <Flex wrap="wrap" gap={2} mt={2}>
+                    {badges.map((badge, index) => (
+                        <Badge
+                        key={index}
+                        name={badge.name}
+                        icon={badge.icon}
+                        status={badge.status}
+                        criteria_desc={badge.criteria_desc}
+                        size="sm"
+                        />
+                    ))}
+                    </Flex>
+
+                    <Flex
+                        mt={2}
+                        w="100%"
+                        justifyContent="space-between"
+                        alignItems="center"
+                    >
+                        <Text
+                            fontSize="12px"
+                            color="#374151"
+                        >
+                            {innovations.length} Inovasi
                         </Text>
-                        <Icon as={LuDot} color="#4B5563" />
-                        <Icon as={TbPlant2} color="#4B5563" />
-                        <Text fontSize="12px" fontWeight="400" color="#4B5563">
-                            {t("companionVillagesCount", { count: totalVillagesCount > 0 ? totalVillagesCount : innovatorData.jumlahDesaDampingan })}
+
+                        <Text
+                            fontSize="12px"
+                            color="#374151"
+                        >
+                            {totalVillagesCount} Desa Dampingan
                         </Text>
                     </Flex>
+
+                    <Flex direction="row" gap={3} mt={1} alignItems="center"></Flex>
                 </Stack>
                 <Flex>
                     <Stack direction="column" gap={0}>
@@ -422,26 +451,6 @@ const ProfileInnovator: React.FC = () => {
                 </Flex>
                 
                 <div>
-                    {/* Badge Inovator */}
-                    <Box mt={6}>
-                        <Text fontSize="16px" fontWeight="700" mb={3}>
-                            Badge Inovator
-                        </Text>
-
-                        <Flex wrap="wrap" gap={2}>
-                            {badges.map((badge, index) => (
-                                <Badge
-                                    key={index}
-                                    name={badge.name}
-                                    icon={badge.icon}
-                                    status={badge.status}
-                                    criteria_desc={badge.criteria_desc}
-                                    size="sm"
-                                />
-                            ))}
-                        </Flex>
-                    </Box>
-
                     {/* Produk Inovasi */}
                     <Flex
                         justify="space-between"
