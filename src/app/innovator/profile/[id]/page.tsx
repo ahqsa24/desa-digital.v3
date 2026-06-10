@@ -21,6 +21,8 @@ import { getInnovation } from "Services/innovationServices";
 import { useUser } from "src/contexts/UserContext";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useDigitalNudge } from "src/hooks/useDigitalNudge";
+import Badge from "Components/digitalNudge/badge";
 
 type InnovatorData = {
     id: string;
@@ -90,6 +92,8 @@ const ProfileInnovator: React.FC = () => {
     const [modalInput, setModalInput] = useState("");
 
     const { isAdmin, checking } = useAdminStatus();
+
+    const { badges } = useDigitalNudge();
 
     const handleVerify = async () => {
         setLoading(true);
@@ -416,15 +420,39 @@ const ProfileInnovator: React.FC = () => {
                         </Box>
                     </Stack>
                 </Flex>
+                
                 <div>
+                    {/* Badge Inovator */}
+                    <Box mt={6}>
+                        <Text fontSize="16px" fontWeight="700" mb={3}>
+                            Badge Inovator
+                        </Text>
+
+                        <Flex wrap="wrap" gap={2}>
+                            {badges.map((badge, index) => (
+                                <Badge
+                                    key={index}
+                                    name={badge.name}
+                                    icon={badge.icon}
+                                    status={badge.status}
+                                    criteria_desc={badge.criteria_desc}
+                                    size="sm"
+                                />
+                            ))}
+                        </Flex>
+                    </Box>
+
+                    {/* Produk Inovasi */}
                     <Flex
                         justify="space-between"
                         alignItems="flex-end"
                         alignSelf="stretch"
+                        mt={6}
                     >
                         <Text fontSize="16px" fontWeight="700">
                             {t("innovationProducts")}
                         </Text>
+
                         <Text
                             fontSize="12px"
                             fontWeight="500"
@@ -436,18 +464,29 @@ const ProfileInnovator: React.FC = () => {
                             {t("viewAll")}
                         </Text>
                     </Flex>
+
                     <CardContainer>
                         <Horizontal>
                             {innovations.length > 0 ? (
-                                <InnovationPreview innovations={innovations} innovatorId={id} />
+                                <InnovationPreview
+                                    innovations={innovations}
+                                    innovatorId={id}
+                                />
                             ) : (
-                                <Text fontSize="12px" color="#9CA3AF" textAlign="center" mt={2}>
+                                <Text
+                                    fontSize="12px"
+                                    color="#9CA3AF"
+                                    textAlign="center"
+                                    mt={2}
+                                >
                                     {t("noInnovations")}
                                 </Text>
                             )}
                         </Horizontal>
                     </CardContainer>
+
                 </div>
+
                 <Flex direction="column">
                     <Flex justify="space-between" align="center">
                         <Text fontSize="16px" fontWeight="700">
