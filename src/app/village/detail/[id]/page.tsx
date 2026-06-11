@@ -1,6 +1,4 @@
 "use client";
-
-
 import CardInnovation from "Components/card/innovation";
 import TopBar from "Components/topBar";
 import { paths } from "Consts/path";
@@ -10,7 +8,8 @@ import { useTranslations } from "next-intl";
 import EnlargedImage from "src/components/village/Image";
 import Loading from "Components/loading";
 import { toast } from "react-toastify";
-
+import { useVillageBadgesFromInnovations } from "Hooks/useDigitalNudge";
+import { VillageBadgeSection } from "Components/digitalNudge/VillageBadge";
 import {
     Accordion,
     AccordionButton,
@@ -60,7 +59,6 @@ import {
 } from "./_styles";
 import RejectionModal from "Components/confirmModal/RejectionModal";
 import ActionDrawer from "Components/drawer/ActionDrawer";
-
 export default function DetailVillagePage() {
     const router = useRouter();
     const t = useTranslations("Village");
@@ -70,14 +68,14 @@ export default function DetailVillagePage() {
     const [village, setVillage] = useState<DocumentData | undefined>();
     const params = useParams();
     const id = params.id as string;
-
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [admin, setAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
     const [openModal, setOpenModal] = useState(false);
     const [modalInput, setModalInput] = useState(""); // Catatan admin
     const [isExpanded, setIsExpanded] = useState(false);
-
+    // Badge Desa — dihitung dari data inovasi yang sudah di-fetch
+    const { allBadges: villageBadges } = useVillageBadgesFromInnovations(innovations);
     const truncateText = (text: string, wordLimit: number) => {
         if (!text) return "";
         const words = text.split(" ");
@@ -85,16 +83,13 @@ export default function DetailVillagePage() {
             ? words.slice(0, wordLimit).join(" ") + "..."
             : text;
     };
-
     const formatLocation = (lokasi: any) => {
         if (!lokasi) return "No Location";
         const kecamatan = lokasi.kecamatan?.label || "Unknown Subdistrict";
         const kabupaten = lokasi.kabupatenKota?.label || "Unknown City";
         const provinsi = lokasi.provinsi?.label || "Unknown Province";
-
         return `KECAMATAN ${kecamatan}, ${kabupaten}, ${provinsi}`;
     };
-
     const handleVerify = async () => {
         setLoading(true);
         try {
@@ -115,7 +110,6 @@ export default function DetailVillagePage() {
             onClose();
         }
     };
-
     const handleReject = async () => {
         setLoading(true);
         try {
@@ -140,8 +134,6 @@ export default function DetailVillagePage() {
     useEffect(() => {
         setAdmin(role === "admin");
     }, [role]);
-
-
     useEffect(() => {
         const fetchVillageData = async () => {
             if (id) {
@@ -158,7 +150,6 @@ export default function DetailVillagePage() {
                     } else {
                         console.error("No such village found via API!");
                     }
-
                     const resInv: any = await getVillageInnovations(id, "Terverifikasi");
                     setInnovations(resInv.innovations || resInv.data || []);
                 } catch (error) {
@@ -171,14 +162,11 @@ export default function DetailVillagePage() {
                 setLoading(false);
             }
         };
-
         fetchVillageData();
     }, [id]);
-
     if (loading) {
         return <Loading />;
     }
-
     return (
         <Box paddingBottom={0}>
             <TopBar title={t("detailTitle")} onBack={() => router.back()} />
@@ -235,6 +223,12 @@ export default function DetailVillagePage() {
                             )}
                         </Description>
                     </div>
+                    {/* Badge Desa Section */}
+                    <VillageBadgeSection
+                        allBadges={villageBadges}
+                        loading={false}
+                        title={"Badge Desa"}
+                    />
                     <div>
                         <SubText>{t("villagePotential")}</SubText>
                         <ContPotensiDesa>

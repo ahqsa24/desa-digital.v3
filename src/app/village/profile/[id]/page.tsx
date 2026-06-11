@@ -1,6 +1,4 @@
 "use client";
-
-
 import CardInnovation from "Components/card/innovation";
 import TopBar from "Components/topBar";
 import { paths } from "Consts/path";
@@ -11,7 +9,8 @@ import { useTranslations } from "next-intl";
 import EnlargedImage from "Components/village/Image";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useUser } from "src/contexts/UserContext";
-
+import { useVillageBadgesFromInnovations } from "Hooks/useDigitalNudge";
+import { VillageBadgeSection } from "Components/digitalNudge/VillageBadge";
 import {
     Accordion,
     AccordionButton,
@@ -48,7 +47,6 @@ import StatusCard from "Components/card/status/StatusCard";
 import RejectionModal from "Components/confirmModal/RejectionModal";
 import ActionDrawer from "Components/drawer/ActionDrawer";
 import { useAdminStatus } from "Hooks/useAdminStatus";
-
 export default function ProfileVillage() {
     const router = useRouter();
     const [userLogin] = useAuthState(auth);
@@ -62,24 +60,22 @@ export default function ProfileVillage() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [openModal, setOpenModal] = useState(false);
     const [modalInput, setModalInput] = useState("");
-
     const { isAdmin } = useAdminStatus();
     const { uid: contextUid, firebaseUid: contextFirebaseUid } = useUser();
     const t = useTranslations("Village");
-
+    // Badge Desa — dihitung dari data inovasi yang sudah di-fetch
+    const { allBadges: villageBadges } = useVillageBadgesFromInnovations(innovations);
     const formatLocation = (villageData: any) => {
         if (!villageData) return "No Location";
         const lokasi = villageData.lokasi || {};
         const kecamatan = lokasi.kecamatan?.label || villageData.kecamatan || "Unknown Subdistrict";
         const kabupaten = lokasi.kabupatenKota?.label || villageData.kabupatenKota || villageData.kabupaten || "Unknown City";
         const provinsi = lokasi.provinsi?.label || villageData.provinsi || "Unknown Province";
-
         if (kecamatan === "Unknown Subdistrict" && kabupaten === "Unknown City" && provinsi === "Unknown Province") {
             return "No Location";
         }
         return `KECAMATAN ${kecamatan}, ${kabupaten}, ${provinsi}`;
     };
-
     const handleVerify = async () => {
         setLoading(true);
         try {
@@ -105,11 +101,9 @@ export default function ProfileVillage() {
         setLoading(false);
         onClose();
     };
-
     const toEditVillage = () => {
         router.push(paths.VILLAGE_FORM);
     };
-
     const handleReject = async () => {
         setLoading(true);
         try {
@@ -137,15 +131,12 @@ export default function ProfileVillage() {
         setLoading(false);
         setOpenModal(false); // Tutup modal setelah menyimpan
     };
-
-
     useEffect(() => {
         const fetchVillageData = async () => {
             if (id) {
                 try {
                     const response: any = await getVillageById(id);
                     const data = response.village || response.data;
-
                     if (data) {
                         setVillage(data);
                         const isOwner =
@@ -155,11 +146,9 @@ export default function ProfileVillage() {
                             id === contextFirebaseUid ||
                             data._id === contextUid ||
                             data._id === contextFirebaseUid;
-
                         if (contextUid || contextFirebaseUid) {
                             setOwner(isOwner);
                         }
-
                         // Redirect Owner if status is Ditolak
                         if (isOwner && data.status === "Ditolak") {
                             router.push(paths.VILLAGE_FORM || "/village/form");
@@ -182,7 +171,6 @@ export default function ProfileVillage() {
             }
         };
         fetchVillageData();
-
         // Polling for real-time status updates
         const intervalId = setInterval(async () => {
             if (!id) return;
@@ -206,10 +194,8 @@ export default function ProfileVillage() {
                 console.error("Polling error:", err);
             }
         }, 3000);
-
         return () => clearInterval(intervalId);
     }, [id, userLogin, router, contextUid, contextFirebaseUid]);
-
     useEffect(() => {
         const fetchVillageInnovationsData = async () => {
             if (!id) return;
@@ -220,10 +206,8 @@ export default function ProfileVillage() {
                 console.error("Error fetching village innovations:", error);
             }
         };
-
         fetchVillageInnovationsData();
     }, [id]);
-
     return (
         <>
             <TopBar title={t("detailTitle")} onBack={() => router.back()} />
@@ -250,7 +234,6 @@ export default function ProfileVillage() {
                             </Button>
                         )}
                     </Flex>
-
                     <Title> {village?.namaDesa} </Title>
                     <ActionContainer>
                         <Icon src="/icons/location.svg" alt="loc" />
@@ -260,6 +243,12 @@ export default function ProfileVillage() {
                         <SubText margin-bottom={16}>{t("about")}</SubText>
                         <Description>{village?.deskripsi}</Description>
                     </div>
+                    {/* Badge Desa Section */}
+                    <VillageBadgeSection
+                        allBadges={villageBadges}
+                        loading={false}
+                        title={"Badge Desa"}
+                    />
                     <SubText>{t("villageContact")}</SubText>
                     <Flex flexDirection="column" alignItems="flex-start" gap="12px">
                         <Flex
@@ -535,8 +524,6 @@ export default function ProfileVillage() {
                     </div>
                 </ContentContainer>
             </div>
-
-
             {isAdmin ? (
                 village?.status === "Terverifikasi" || village?.status === "Ditolak" ? (
                     <StatusCard
