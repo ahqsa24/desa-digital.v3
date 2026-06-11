@@ -171,6 +171,7 @@ const Village: React.FC = () => {
                 const fetchedVillages = response.villages || response.data || [];
                 const villagesData = fetchedVillages.map((item: any) => ({
                     ...item,
+                    id: item.id || item.userId || item._id,
                     provinsi: item.lokasi?.provinsi?.label || item.provinsi || "",
                     kabupatenKota: item.lokasi?.kabupatenKota?.label || item.kabupatenKota || item.kabupaten || "",
                     namaDesa: item.lokasi?.desaKelurahan?.label || item.namaDesa || item.desa || "",
@@ -274,13 +275,13 @@ const Village: React.FC = () => {
                                 namaDesa={item.namaDesa}
                                 logo={item.logo || defaultLogo}
                                 header={item.header || defaultHeader}
-                                id={item.userId}
+                                id={item.id}
                                 jumlahInovasiDiterapkan={item.jumlahInovasiDiterapkan}
                                 isHome={false}
                                 highlightQuery={searchTerm}
                                 ranking={searchTerm.trim() ? undefined : (startIndex + idx + 1)}
                                 onClick={() => {
-                                    router.push(`/village/detail/${item.userId || item.id}`);
+                                    router.push(`/village/detail/${item.id}`);
                                 }}
                             />
                         ))

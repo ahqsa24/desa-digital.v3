@@ -84,6 +84,24 @@ export function useVillageBadges(villageId: string | undefined) {
     error,
   };
 }
+
+/**
+ * Minimal stub untuk mendukung halaman inovator yang belum memiliki badge logic.
+ * Saat ini belum ada kalkulasi badge inovator, jadi hasilnya kosong.
+ */
+export function useDigitalNudge(): {
+  badges: Array<{
+    name: string;
+    icon: string;
+    status: string;
+    criteria_desc: string;
+  }>;
+} {
+  return {
+    badges: [],
+  };
+}
+
 /**
  * Hook untuk menghitung badge desa dari data inovasi yang sudah tersedia.
  * Tidak melakukan fetch — berguna jika data inovasi sudah di-fetch di halaman.
