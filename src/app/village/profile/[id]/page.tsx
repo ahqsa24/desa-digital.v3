@@ -5,7 +5,9 @@ import CardInnovation from "Components/card/innovation";
 import TopBar from "Components/topBar";
 import { paths } from "Consts/path";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useVillageDigitalNudge } from "src/hooks/useDigitalNudge";
+import Badge from "Components/digitalNudge/badge";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import EnlargedImage from "Components/village/Image";
@@ -66,6 +68,46 @@ export default function ProfileVillage() {
     const { isAdmin } = useAdminStatus();
     const { uid: contextUid, firebaseUid: contextFirebaseUid } = useUser();
     const t = useTranslations("Village");
+
+    // Extract badge data from innovations
+    const badgeData = useMemo(() => {
+        const appliedInnovationCount = innovations.length;
+
+        // Count innovations per category
+        const categoryCounts: Record<string, number> = {};
+        innovations.forEach((innovation: any) => {
+            const category = innovation.kategori || "Uncategorized";
+            categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+        });
+
+        // Extract applied innovation dates (ISO format)
+        const appliedInnovationDates = innovations
+            .map((innovation: any) => innovation.tanggalDiterapkan || innovation.createdAt || innovation.dateApplied)
+            .filter((date: any) => date);
+
+        // Extract distinct innovator IDs
+        const distinctInnovatorIds = Array.from(
+            new Set(
+                innovations
+                    .map((innovation: any) => innovation.innovatorId || innovation.creatorId)
+                    .filter((id: any) => id)
+            )
+        );
+
+        return {
+            appliedInnovationCount,
+            categoryCounts,
+            appliedInnovationDates: appliedInnovationDates as string[],
+            distinctInnovatorIds: distinctInnovatorIds as string[],
+        };
+    }, [innovations]);
+
+    const { badges } = useVillageDigitalNudge(
+        badgeData.appliedInnovationCount,
+        badgeData.categoryCounts,
+        badgeData.appliedInnovationDates,
+        badgeData.distinctInnovatorIds
+    );
 
     const formatLocation = (villageData: any) => {
         if (!villageData) return "No Location";
@@ -256,6 +298,20 @@ export default function ProfileVillage() {
                         <Icon src="/icons/location.svg" alt="loc" />
                         <Description>{formatLocation(village)}</Description>
                     </ActionContainer>
+
+                    <Flex wrap="wrap" gap={2} mt={2}>
+                        {badges.map((badge, index) => (
+                            <Badge
+                                key={index}
+                                name={badge.name}
+                                icon={badge.icon}
+                                status={badge.status}
+                                criteria_desc={badge.criteria_desc}
+                                size="sm"
+                            />
+                        ))}
+                    </Flex>
+
                     <div>
                         <SubText margin-bottom={16}>{t("about")}</SubText>
                         <Description>{village?.deskripsi}</Description>

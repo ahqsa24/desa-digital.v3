@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { getInnovatorBadges } from "@/services/digitalNudgeService";
+import { getInnovatorBadges, getVillageBadges } from "@/services/digitalNudgeService";
 
 export const useDigitalNudge = (
   innovationCount: number,
@@ -15,4 +15,22 @@ export const useDigitalNudge = (
   return {
     badges,
   };
+};
+
+export const useVillageDigitalNudge = (
+  appliedInnovationCount: number,
+  categoryCounts: Record<string, number> = {},
+  appliedInnovationDates: string[] = [],
+  distinctInnovatorIds: string[] = []
+) => {
+  const badges = useMemo(() => {
+    return getVillageBadges(
+      appliedInnovationCount,
+      categoryCounts,
+      appliedInnovationDates,
+      distinctInnovatorIds
+    );
+  }, [appliedInnovationCount, JSON.stringify(categoryCounts), JSON.stringify(appliedInnovationDates), JSON.stringify(distinctInnovatorIds)]);
+
+  return { badges };
 };
