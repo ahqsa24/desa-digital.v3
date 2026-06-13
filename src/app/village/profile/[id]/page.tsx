@@ -76,23 +76,44 @@ export default function ProfileVillage() {
         // Count innovations per category
         const categoryCounts: Record<string, number> = {};
         innovations.forEach((innovation: any) => {
-            const category = innovation.kategori || "Uncategorized";
+            const category = innovation.kategori || innovation.category || innovation.type || "Uncategorized";
             categoryCounts[category] = (categoryCounts[category] || 0) + 1;
         });
 
-        // Extract applied innovation dates (ISO format)
+        // Extract applied innovation dates (ISO format) - dengan lebih banyak fallback
         const appliedInnovationDates = innovations
-            .map((innovation: any) => innovation.tanggalDiterapkan || innovation.createdAt || innovation.dateApplied)
+            .map((innovation: any) => 
+                innovation.tanggalDiterapkan || 
+                innovation.dateApplied || 
+                innovation.appliedDate ||
+                innovation.createdAt || 
+                innovation.date
+            )
             .filter((date: any) => date);
 
         // Extract distinct innovator IDs
         const distinctInnovatorIds = Array.from(
             new Set(
                 innovations
-                    .map((innovation: any) => innovation.innovatorId || innovation.creatorId)
+                    .map((innovation: any) => 
+                        innovation.innovatorId || 
+                        innovation.creator_id ||
+                        innovation.creatorId || 
+                        innovation.inovator_id ||
+                        innovation.innovator ||
+                        ""
+                    )
                     .filter((id: any) => id)
             )
         );
+
+        // Debug logging
+        if (innovations.length > 0) {
+            console.log("Badge data - First innovation sample:", innovations[0]);
+            console.log("Badge data - Applied innovations count:", appliedInnovationCount);
+            console.log("Badge data - Categories breakdown:", categoryCounts);
+            console.log("Badge data - Distinct innovators count:", distinctInnovatorIds.length);
+        }
 
         return {
             appliedInnovationCount,
@@ -257,9 +278,14 @@ export default function ProfileVillage() {
             if (!id) return;
             try {
                 const response: any = await getVillageInnovations(id, "Terverifikasi");
-                setInnovations(response.innovations || []);
+                // Handle various response formats, including axios-like data wrappers
+                const innovationsData = response?.innovations || response?.data?.innovations || response?.data || response || [];
+                console.log("Village innovations API response:", response);
+                console.log("Parsed innovations count:", Array.isArray(innovationsData) ? innovationsData.length : 0);
+                setInnovations(Array.isArray(innovationsData) ? innovationsData : []);
             } catch (error) {
                 console.error("Error fetching village innovations:", error);
+                setInnovations([]);
             }
         };
 
@@ -299,18 +325,27 @@ export default function ProfileVillage() {
                         <Description>{formatLocation(village)}</Description>
                     </ActionContainer>
 
-                    <Flex wrap="wrap" gap={2} mt={2}>
-                        {badges.map((badge, index) => (
-                            <Badge
-                                key={index}
-                                name={badge.name}
-                                icon={badge.icon}
-                                status={badge.status}
-                                criteria_desc={badge.criteria_desc}
-                                size="sm"
-                            />
-                        ))}
-                    </Flex>
+                    {/* Village Badges Section */}
+                    <Box mt={2} mb={2}>
+                        {badges && badges.length > 0 ? (
+                            <Flex wrap="wrap" gap={2}>
+                                {badges.map((badge, index) => (
+                                    <Badge
+                                        key={index}
+                                        name={badge.name}
+                                        icon={badge.icon}
+                                        status={badge.status}
+                                        criteria_desc={badge.criteria_desc}
+                                        size="sm"
+                                    />
+                                ))}
+                            </Flex>
+                        ) : innovations.length === 0 ? (
+                            <Text fontSize="11px" color="gray.400">
+                                Belum ada inovasi yang diterapkan
+                            </Text>
+                        ) : null}
+                    </Box>
 
                     <div>
                         <SubText margin-bottom={16}>{t("about")}</SubText>

@@ -109,8 +109,8 @@ export const getVillageBadges = (
     {
       name: "Adopter giat",
       icon: "",
-      status: hasSixConsecutiveMonths() ? "diperoleh" : "belum",
-      criteria_desc: "Menerapkan inovasi digital setidaknya 1 kali selama 6 bulan berturut-turut.",
+      status: maxCategory >= 4 ? "diperoleh" : "belum",
+      criteria_desc: "Menerapkan minimal 4 inovasi dari 1 kategori yang sama.",
     },
     {
       name: "Sahabat inovator",

@@ -4,7 +4,7 @@
 import CardInnovation from "Components/card/innovation";
 import TopBar from "Components/topBar";
 import { paths } from "Consts/path";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import EnlargedImage from "src/components/village/Image";
@@ -42,6 +42,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "src/firebase/clientApp";
 import { getVillageById, getVillageInnovations } from "Services/villageServices";
 import api from "Services/api";
+import { useVillageDigitalNudge } from "src/hooks/useDigitalNudge";
+import Badge from "Components/digitalNudge/badge";
 import { useUser } from "src/contexts/UserContext";
 import {
     ActionContainer,
@@ -70,6 +72,56 @@ export default function DetailVillagePage() {
     const [village, setVillage] = useState<DocumentData | undefined>();
     const params = useParams();
     const id = params.id as string;
+
+    const badgeData = useMemo(() => {
+        const appliedInnovationCount = innovations.length;
+
+        const categoryCounts: Record<string, number> = {};
+        innovations.forEach((innovation: any) => {
+            const category = innovation.kategori || innovation.category || innovation.type || "Uncategorized";
+            categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+        });
+
+        const appliedInnovationDates = innovations
+            .map((innovation: any) =>
+                innovation.tanggalDiterapkan ||
+                innovation.dateApplied ||
+                innovation.appliedDate ||
+                innovation.createdAt ||
+                innovation.date
+            )
+            .filter(Boolean) as string[];
+
+        const distinctInnovatorIds = Array.from(
+            new Set(
+                innovations
+                    .map((innovation: any) =>
+                        innovation.innovatorId ||
+                        innovation.creator_id ||
+                        innovation.creatorId ||
+                        innovation.inovator_id ||
+                        innovation.inovator ||
+                        innovation.namaInnovator ||
+                        ""
+                    )
+                    .filter((id: any) => id)
+            )
+        );
+
+        return {
+            appliedInnovationCount,
+            categoryCounts,
+            appliedInnovationDates,
+            distinctInnovatorIds,
+        };
+    }, [innovations]);
+
+    const { badges } = useVillageDigitalNudge(
+        badgeData.appliedInnovationCount,
+        badgeData.categoryCounts,
+        badgeData.appliedInnovationDates,
+        badgeData.distinctInnovatorIds
+    );
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [admin, setAdmin] = useState(false);
@@ -193,6 +245,29 @@ export default function DetailVillagePage() {
                         <Icon src="/icons/location.svg" alt="loc" />
                         <Description>{formatLocation(village?.lokasi)}</Description>
                     </ActionContainer>
+                    <Box mb={4}>
+                        <Text fontSize="12px" fontWeight="700" mb={2}>
+                            Pencapaian Desa
+                        </Text>
+                        {badges && badges.length > 0 ? (
+                            <Flex wrap="wrap" gap={2}>
+                                {badges.map((badge, index) => (
+                                    <Badge
+                                        key={index}
+                                        name={badge.name}
+                                        icon={badge.icon}
+                                        status={badge.status}
+                                        criteria_desc={badge.criteria_desc}
+                                        size="sm"
+                                    />
+                                ))}
+                            </Flex>
+                        ) : (
+                            <Text fontSize="11px" color="gray.400">
+                                Belum ada pencapaian digital
+                            </Text>
+                        )}
+                    </Box>
                     <div>
                         <SubText margin-bottom={16}>{t("about")}</SubText>
                         <Description>
