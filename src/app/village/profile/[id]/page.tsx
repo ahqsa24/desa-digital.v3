@@ -6,7 +6,7 @@ import TopBar from "Components/topBar";
 import { paths } from "Consts/path";
 import { toast } from "react-toastify";
 import { useEffect, useState, useMemo } from "react";
-import { useVillageDigitalNudge } from "src/hooks/useDigitalNudge";
+import { useBadge } from "src/hooks/useDigitalNudge";
 import Badge from "Components/digitalNudge/badge";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -102,12 +102,13 @@ export default function ProfileVillage() {
         };
     }, [innovations]);
 
-    const { badges } = useVillageDigitalNudge(
-        badgeData.appliedInnovationCount,
-        badgeData.categoryCounts,
-        badgeData.appliedInnovationDates,
-        badgeData.distinctInnovatorIds
-    );
+    const { badges } = useBadge({
+        type: "village",
+        appliedInnovationCount: badgeData.appliedInnovationCount,
+        categoryCounts: badgeData.categoryCounts,
+        appliedInnovationDates: badgeData.appliedInnovationDates,
+        distinctInnovatorIds: badgeData.distinctInnovatorIds,
+    });
 
     const formatLocation = (villageData: any) => {
         if (!villageData) return "No Location";

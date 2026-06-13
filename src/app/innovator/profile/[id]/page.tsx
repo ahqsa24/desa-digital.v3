@@ -21,7 +21,7 @@ import { getInnovation } from "Services/innovationServices";
 import { useUser } from "src/contexts/UserContext";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useDigitalNudge } from "src/hooks/useDigitalNudge";
+import { useBadge } from "src/hooks/useDigitalNudge";
 import Badge from "Components/digitalNudge/badge";
 
 type InnovatorData = {
@@ -93,10 +93,11 @@ const ProfileInnovator: React.FC = () => {
 
     const { isAdmin, checking } = useAdminStatus();
 
-    const { badges } = useDigitalNudge(
-        innovations.length,
-        totalVillagesCount
-        );
+    const { badges } = useBadge({
+        type: "innovator",
+        innovationCount: innovations.length,
+        villageCount: totalVillagesCount,
+    });
 
     const handleVerify = async () => {
         setLoading(true);
