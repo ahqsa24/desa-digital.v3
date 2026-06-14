@@ -47,9 +47,9 @@ export type SearchResult = {
 
 const ROLE_ALLOWED_COLLECTIONS: Record<UserRole, string[]> = {
   admin: ["innovations", "villages", "innovators", "claimInnovations"],
-  kementerian: ["innovations", "villages"],
-  innovator: ["innovations", "innovators"],
-  village: ["innovations", "villages"],
+  kementerian: ["innovations", "villages", "innovators"],
+  innovator: ["innovations", "villages", "innovators"],
+  village: ["innovations", "villages", "innovators"],
   guest: ["innovations", "villages", "innovators"],
 };
 
