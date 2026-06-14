@@ -41,9 +41,9 @@ interface LinkCard {
 
 const ROLE_ALLOWED_CARD_KINDS: Record<UserRole, string[]> = {
   admin: ["innovation", "village", "innovator", "claim"],
-  kementerian: ["innovation", "village"],
-  innovator: ["innovation", "innovator"],
-  village: ["innovation", "village"],
+  kementerian: ["innovation", "village", "innovator"],
+  innovator: ["innovation", "village", "innovator"],
+  village: ["innovation", "village, innovator"],
   guest: ["innovation", "village", "innovator"],
 };
 
