@@ -42,7 +42,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "src/firebase/clientApp";
 import { getVillageById, getVillageInnovations } from "Services/villageServices";
 import api from "Services/api";
-import { useVillageDigitalNudge } from "src/hooks/useDigitalNudge";
+import { useBadge } from "src/hooks/useDigitalNudge";
 import Badge from "Components/digitalNudge/badge";
 import { useUser } from "src/contexts/UserContext";
 import {
@@ -116,12 +116,13 @@ export default function DetailVillagePage() {
         };
     }, [innovations]);
 
-    const { badges } = useVillageDigitalNudge(
-        badgeData.appliedInnovationCount,
-        badgeData.categoryCounts,
-        badgeData.appliedInnovationDates,
-        badgeData.distinctInnovatorIds
-    );
+    const { badges } = useBadge({
+        type: "village",
+        appliedInnovationCount: badgeData.appliedInnovationCount,
+        categoryCounts: badgeData.categoryCounts,
+        appliedInnovationDates: badgeData.appliedInnovationDates,
+        distinctInnovatorIds: badgeData.distinctInnovatorIds,
+    });
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [admin, setAdmin] = useState(false);
