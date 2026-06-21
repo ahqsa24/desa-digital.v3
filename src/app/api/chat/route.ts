@@ -11,7 +11,7 @@ import {
   type QueryIntent,
   type UserRole,
 } from "@/lib/ai/rag-utils";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+// import { GoogleGenerativeAI } from "@google/generative-ai";
 import { connectToDatabase } from "@/lib/db/mongodb";
 import { verifyRoleFromToken } from "@/lib/auth/verifyRole";
 import { Innovation } from "@/types";
@@ -43,7 +43,7 @@ const ROLE_ALLOWED_CARD_KINDS: Record<UserRole, string[]> = {
   admin: ["innovation", "village", "innovator", "claim"],
   kementerian: ["innovation", "village", "innovator"],
   innovator: ["innovation", "village", "innovator"],
-  village: ["innovation", "village, innovator"],
+  village: ["innovation", "village", "innovator"],
   guest: ["innovation", "village", "innovator"],
 };
 
@@ -646,17 +646,55 @@ export async function POST(req: Request) {
     Jawaban Asisten:
     `.trim();
 
-    // --- Panggil Gemini ---
-    const genAI = new GoogleGenerativeAI(
-      process.env.GOOGLE_GENERATIVE_AI_API_KEY || ""
-    );
-    const model = genAI.getGenerativeModel({
-      model: "gemma-3-27b-it",
-      generationConfig: { temperature: 0.0, maxOutputTokens: 500 },
-    });
+    // --- Panggil ChatAnywhere ---
+    // Gemini tetap disimpan sebagai referensi sementara.
+    // const genAI = new GoogleGenerativeAI(
+    //   process.env.GOOGLE_GENERATIVE_AI_API_KEY || ""
+    // );
+    // const model = genAI.getGenerativeModel({
+    //   model: "gemma-3-27b-it",
+    //   generationConfig: { temperature: 0.0, maxOutputTokens: 500 },
+    // });
+    // const result = await model.generateContent(prompt);
+    // let geminiText = result.response.text();
 
-    const result = await model.generateContent(prompt);
-    let geminiText = result.response.text();
+    const chatAnywhereApiKey = process.env.CHATANYWHERE_API_KEY;
+    const chatAnywhereBaseUrl =
+      process.env.CHATANYWHERE_BASE_URL || "https://api.chatanywhere.tech/v1";
+    const chatAnywhereModel =
+      process.env.CHATANYWHERE_MODEL || "gpt-4o-mini";
+
+    if (!chatAnywhereApiKey) {
+      throw new Error("CHATANYWHERE_API_KEY belum diatur.");
+    }
+
+    const chatAnywhereResponse = await fetch(
+      `${chatAnywhereBaseUrl}/chat/completions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${chatAnywhereApiKey}`,
+        },
+        body: JSON.stringify({
+          model: chatAnywhereModel,
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.0,
+          max_tokens: 500,
+        }),
+      }
+    );
+
+    if (!chatAnywhereResponse.ok) {
+      const errorText = await chatAnywhereResponse.text();
+      throw new Error(
+        `ChatAnywhere error ${chatAnywhereResponse.status}: ${errorText}`
+      );
+    }
+
+    const chatAnywhereData = await chatAnywhereResponse.json();
+    let geminiText =
+      chatAnywhereData?.choices?.[0]?.message?.content?.trim() || "";
     let suggestions: string[] = [];
 
     // Parse & strip suggestions dari respons

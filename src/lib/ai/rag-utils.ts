@@ -9,7 +9,7 @@ import { connectToDatabase } from "@/lib/db/mongodb";
 const OLLAMA_BASE_URL =
   process.env.OLLAMA_BASE_URL || "http://127.0.0.1:11434";
 const OLLAMA_EMBED_MODEL =
-  process.env.OLLAMA_EMBED_MODEL || "embeddinggemma:latest";
+  process.env.OLLAMA_EMBED_MODEL || "mxbai-embed-large:latest";
 const VECTOR_SCORE_THRESHOLD = parseFloat(
   process.env.VECTOR_SCORE_THRESHOLD || "0.6"
 );
